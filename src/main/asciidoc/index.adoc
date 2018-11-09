@@ -1,0 +1,14 @@
+= OSO REST-Documentation
+
+== requesting of devices
+
+.request
+include::{snippets}/devices/http-request.adoc[]
+
+.response
+include::{snippets}/devices/http-response.adoc[]
+
+== emiting an emergency
+
+.post
+include::{snippets}/emergency/request-body.adoc[]

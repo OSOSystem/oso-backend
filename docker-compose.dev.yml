@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  postgres:
+    ports:
+      - "5432:5432"
+
+  ososystem:
+    ports:
+      - "8081:8081"
+      - "9999:9999"
+
+  keycloak:
+    environment:
+      - KEYCLOAK_USER=developer
+      - KEYCLOAK_PASSWORD=ososystem
+      - KEYCLOAK_IMPORT=/tmp/oso-realm.json
+      - PROXY_ADDRESS_FORWARDING=true
+      - DB_USER=developer
+      - DB_PASSWORD=ososystem
+    ports:
+      - "8080:8080"

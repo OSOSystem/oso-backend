@@ -1,0 +1,52 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:alpine
+    networks:
+      - backend
+    ports:
+      - "443:443"
+      - "12345:12345"
+    volumes:
+      - type: bind
+        source: ./nginx.local.conf
+        target: /etc/nginx/nginx.conf
+      - type: bind
+        source: /etc/nginx/certs/
+        target: /etc/nginx/certs/
+
+  postgres:
+    build: ./postgres
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - type: bind
+        source: ./pgdata
+        target: /var/lib/postgresql/data
+
+  ososystem:
+    build: .
+    depends_on:
+      - postgres
+    networks:
+      - backend
+
+  keycloak:
+    image: jboss/keycloak
+    depends_on:
+      - postgres
+    networks:
+      - backend
+    volumes:
+      - type: bind
+        source: ./oso-realm.json
+        target: /tmp/oso-realm.json
+
+networks:
+  backend:
+    driver: bridge

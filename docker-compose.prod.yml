@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  postgres:
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    restart: always
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  ososystem:
+    image: osodev/backend
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:9999:9999"
+    volumes:
+      - type: bind
+        source: ./osologs/
+        target: /osologs/
+
+  keycloak:
+    environment:
+      - KEYCLOAK_USER=${KEYCLOAK_USER}
+      - KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD}
+      - KEYCLOAK_IMPORT=/tmp/oso-realm.json
+      - PROXY_ADDRESS_FORWARDING=true
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "127.0.0.1:8180:8080"
