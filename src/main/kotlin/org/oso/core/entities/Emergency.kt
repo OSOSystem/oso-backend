@@ -8,7 +8,7 @@ data class Emergency (
     @JoinColumn(name = "helpRequester_id")
     val helpRequester: HelpRequester,
     var emergencyType: EmergencyType = EmergencyType.LOW,
-    val coordinates: Coordinates?
+    val coordinates: Coordinates? = null
 ): BaseEntity() {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "emergency")

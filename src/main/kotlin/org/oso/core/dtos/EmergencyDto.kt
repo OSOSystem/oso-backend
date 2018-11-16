@@ -6,5 +6,5 @@ import org.oso.core.entities.EmergencyType
 class EmergencyDto(
     var helprequester: Long,
     var emergencyType: EmergencyType,
-    var coordinates: Coordinates?
+    var coordinates: Coordinates? = null
 )
