@@ -23,7 +23,7 @@ class EmergencyController
 
     @PostMapping(PATH_EMIT)
     @ResponseStatus(HttpStatus.CREATED)
-    fun emit(@RequestBody emergencyDto: EmergencyDto) {
+    fun emit(emergencyDto: EmergencyDto) {
 
         val helpRequester = helpRequesterService.findById(emergencyDto.helprequester) ?:
             throw HelpRequesterNotFoundException("HelpRequester<${emergencyDto.helprequester}> does not exist")

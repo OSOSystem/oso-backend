@@ -1,5 +1,6 @@
 package org.oso.core.entities
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -13,5 +14,6 @@ data class DeviceType(
 ) : BaseEntity() {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "deviceType")
+    @JsonBackReference
     val devices = mutableSetOf<Device>()
 }

@@ -44,11 +44,13 @@ class HelpProviderController
 
     // TODO eventually move to emergency controller
     @PostMapping(PATH_ACCEPT_EMERGENCY)
-    fun acceptEmergency(@RequestBody emergencyAccepted: EmergencyAcceptedDto) {
+    fun acceptEmergency(emergencyAccepted: EmergencyAcceptedDto): ResponseEntity<Unit> {
         helpProviderService.acceptEmergency(
             emergencyId = emergencyAccepted.emergencyId,
             helpProviderId = emergencyAccepted.helpProviderId
         )
+
+        return ResponseEntity.accepted().build<Unit>()
     }
 
     private fun getHelpProviderOrFail(id: Long): HelpProvider {
