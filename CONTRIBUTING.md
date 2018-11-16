@@ -59,7 +59,7 @@ We will look at the pull requests on a regular basis.
     * :racehorse: `:racehorse:` when improving performance
     * :non-potable_water: `:non-potable_water:` when plugging memory leaks
     * :memo: `:memo:` when writing docs
-    * :wrench: when fixing something
+    * :wrench: `:wrench:` when fixing something
     * :bug: `:bug:` when fixing a bug
     * :fire: `:fire:` when removing code or files
     * :green_heart: `:green_heart:` when fixing the CI build
