@@ -102,7 +102,7 @@ class HelpProviderControllerTest {
         Mockito.`when`(helpProviderService.createHelpProvider(any())).thenThrow(IllegalArgumentException())
         Mockito.doReturn(helpProvider).`when`(helpProviderService).createHelpProvider(dto.toEntity())
 
-        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
+        // TODO this test always fails as jackson does not recognize the non-nullable parameters correctly
         /*
         this.mockMvc
             .perform(
@@ -119,13 +119,13 @@ class HelpProviderControllerTest {
 
     @Test
     fun `testCreateHelpProvider throws exception on missing parameter`() {
-        val parameters = listOf(
-            "name" to "helpprovider",
-            "password" to "password"
-        )
-
-        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
-        //testFailOnMissingParameters(mockMvc, HelpProviderController.PATH_HELP_PROVIDERS, parameters)
+//        val parameters = listOf(
+//            "name" to "helpprovider",
+//            "password" to "password"
+//        )
+//
+//        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
+//        testFailOnMissingParameters(mockMvc, HelpProviderController.PATH_HELP_PROVIDERS, parameters)
     }
 
     @Test
@@ -187,7 +187,16 @@ class HelpProviderControllerTest {
         helpRequesters[0].id = 4711
         helpRequesters[1].id = 4712
 
-        Mockito.`when`(helpProviderService.findHelpRequesters(id)).thenReturn(helpRequesters.toSet())
+        val helpProvider = HelpProvider(
+            name = "Name",
+            password = "Password"
+        )
+
+        helpProvider.id = id
+        helpProvider.helpRequesters.addAll(helpRequesters)
+
+        Mockito.`when`(helpProviderService.findById(id)).thenReturn(helpProvider)
+        Mockito.`when`(helpProviderService.findHelpRequesters(id)).thenReturn(helpProvider.helpRequesters)
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
@@ -209,15 +218,14 @@ class HelpProviderControllerTest {
     }
 
     @Test
-    fun `testFindHelpRequesters is empty on unknown help provider`() {
+    fun `testFindHelpRequesters throws exception on unknown help provider`() {
         Mockito.`when`(helpProviderService.findHelpRequesters(ArgumentMatchers.anyLong())).thenReturn(null)
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
                 .get("/${HelpProviderController.PATH_HELP_PROVIDERS}/25/${HelpProviderController.PATH_HELP_REQUESTERS}")
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(0)))
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
     @Test
@@ -246,13 +254,13 @@ class HelpProviderControllerTest {
 
     @Test
     fun `testAcceptEmergency throws exception on missing parameter`() {
-        val parameters = listOf(
-            "emergencyId" to "25",
-            "helpProviderId" to "38",
-            "helpRequesterId" to "46"
-        )
-
-        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
-        //testFailOnMissingParameters(mockMvc, "${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}", parameters)
+//        val parameters = listOf(
+//            "emergencyId" to "25",
+//            "helpProviderId" to "38",
+//            "helpRequesterId" to "46"
+//        )
+//
+//        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
+//        testFailOnMissingParameters(mockMvc, "${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}", parameters)
     }
 }
