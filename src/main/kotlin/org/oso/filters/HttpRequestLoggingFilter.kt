@@ -15,14 +15,8 @@ class HttpRequestLoggingFilter : Filter {
         if (request is HttpServletRequest) {
             val ipAddress = extractIp(request)
             val httpVerb = request.method
-            val sendsPayload = httpVerb == "POST" || httpVerb == "PUT"
 
-            if (sendsPayload) {
-                val payload = request.reader.readText()
-                LOGGER.info("Http {} Request {} {}\n{}", httpVerb, request.servletPath, ipAddress, payload)
-            } else {
-                LOGGER.info("Http {} Request {} {}", httpVerb, request.servletPath, ipAddress)
-            }
+            LOGGER.info("Http {} Request {} {}", httpVerb, request.servletPath, ipAddress)
         }
 
         chain?.doFilter(request, response)
