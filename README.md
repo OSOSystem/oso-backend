@@ -85,7 +85,7 @@ If something in this README is unclear, just let us know.
     * [Database](#database)
         * [PostgreSQL](#postgresql)
     * [Keycloak](#keycloak)
-        * [Setup]()
+        * [Local](#local)
     * [Starting](#starting)
         * [Docker Compose](#docker-compose)
         * [By Hand](#by-hand)
@@ -189,10 +189,18 @@ https://www.postgresql.org/download/linux/
 
 ### Keycloak
 We use Keycloak for identity and authorization management.
-It is used for both the frontend and backend.
+It is used for backend and frontend.
 
 The currently support social logins are
 * Github
+
+#### Local
+When starting a Keycloak instance and you want to adjust some settings you need to provide admin credentials 
+
+**url**: http://localhost:8080/auth/admin<br>
+**user**: developer<br>
+**password**: ososystem
+
 
 ### Starting
 #### Docker Compose
