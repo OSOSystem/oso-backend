@@ -1,20 +1,5 @@
 version: '3.7'
 services:
-  nginx:
-    image: nginx:1.15
-    networks:
-      - backend
-    ports:
-      - "443:443"
-      - "12345:12345"
-    volumes:
-      - type: bind
-        source: ./nginx.local.conf
-        target: /etc/nginx/nginx.conf
-      - type: bind
-        source: /etc/nginx/certs/
-        target: /etc/nginx/certs/
-
   postgres:
     build: ./postgres
     networks:

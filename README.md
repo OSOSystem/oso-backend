@@ -78,7 +78,6 @@ If something in this README is unclear, just let us know.
 ### Table of contents
 * [Application](#application)
     * [Building](#building)
-    * [Nginx](#nginx)
     * [Spring](#spring)
         * [Profiles](#profiles)
         * [Tasks](#tasks)
@@ -114,12 +113,6 @@ The jar can be built by using the Gradle Wrapper which is included in this repos
 
 To build a docker image for the backend we provide this [Dockerfile](Dockerfile).
 It will be used by ``docker-compose`` in the [Starting](#starting) section.
-
----
-
-### Nginx
-We use it primarily as reverse Proxy which supports HTTPS.
-The Certificates are generated with Let's Encrypt.
 
 ---
 

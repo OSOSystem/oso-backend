@@ -6,7 +6,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
     restart: always
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
 
   ososystem:
     image: ososystem/backend
@@ -14,8 +14,8 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
     ports:
-      - "127.0.0.1:8080:8080"
-      - "127.0.0.1:9999:9999"
+      - "8081:8081"
+      - "9999:9999"
     volumes:
       - type: bind
         source: ./osologs/
@@ -30,4 +30,4 @@ services:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
     ports:
-      - "127.0.0.1:8180:8080"
+      - "8180:8080"
