@@ -9,7 +9,7 @@ services:
       - "127.0.0.1:5432:5432"
 
   ososystem:
-    image: osodev/backend
+    image: ososystem/backend
     environment:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}

@@ -13,8 +13,8 @@ services:
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t osodev/backend .
-  - docker push osodev/backend
+  - docker build -t ososystem/backend .
+  - docker push ososystem/backend
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh success $WEBHOOK_URL
