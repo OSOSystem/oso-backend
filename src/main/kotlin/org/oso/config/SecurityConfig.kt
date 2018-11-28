@@ -34,7 +34,7 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @EnableWebSecurity
 // Spring generates a webadapter with order 100 by default
 // so we need to assign any other number to avoid a conflict/exception
-@Order(101)
+@Order(99)
 internal class SecurityConfig : KeycloakWebSecurityConfigurerAdapter() {
 
     @Autowired
