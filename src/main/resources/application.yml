@@ -34,7 +34,6 @@ keycloak:
   resource: login-app
   use-resource-role-mappings: true
   ssl-required: external
-  public-client: false
   bearer-only: true
   credentials:
     secret: f10e2064-72cf-43dd-923c-2c029b12fc7e
