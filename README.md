@@ -1,70 +1,8 @@
 # <img src="https://user-images.githubusercontent.com/19901781/46945965-8cb21700-d076-11e8-8c82-95af6b7388b3.png" width="80" height="80"> OSO Backend
 [![Build Status](https://travis-ci.com/pwilken/OpenSourceTrackingSystem.svg?token=YUzfzW96QR4BesPEUUqv&branch=master)](https://travis-ci.com/pwilken/OpenSourceTrackingSystem)
 
-### Meaning of OSO
-OSO stands for Open Source Ortungssystem. 
-The last word Ortungssystem is german and translated means locating system.
-
-### What is this project about?
-Have you ever been or know someone who was in a situation where it would have been handy to tell people about your location?
-What if I told you that this whole process can be done by just clicking a button on a smart device?
-Sounds cool? Then keep reading.
-
-#### Isn't this already possible?
-You can use devices which can emit emergencies.
-Or you can use your smartphone to write a message or make a call.
-But what about when you want to inform several people?
-Seems kinda tedious and time consuming. Especially in situations where time is scarce.
-
-#### Existing solutions
-Companies who built such devices often provide a platform to list a person which get notified in case of an emergency.
-These tools and platforms are often too limited though. 
-For example they only let you list one contact, 
-don't let you adjust the channel where you will receive a notification and the list goes on and on.
-
-There is no real standard as everyone is providing their own solution.
-
-### Feeling safe
-Sometimes you are not that clearheaded as you may think. Especially when adrenalin is flowing through your blood. 
-Maybe some people have made experiences like that after an car accident for instance.
-To reduce the stress knowing you can inform someone by pressing a button, to tell them about your whereabouts is reassuring.
-
-#### I don't want to be tracked!
-As the name OSO already suggests it is every component of this project open source. 
-We only save the data which is needed for this service to work. 
-There always will be transparency. :relaxed:
-
-#### Audience
-Everyone can use it.
-It might be especially helpful for
-* Kids
-* People with special needs
-* Elder People
-
-### How to use it?
-You need an device which should support GSM and GPRS. GPS would be ideal but not a must have.
-The device should be programmable so we can connect it with our service.
-Check out the list of our currently supported devices here: [Supported Devices](#supported-devices)
-
-Connect your device and list your helpers on our platform 
-https://app.ososystem.de
-
-#### Future
-We try to build a platform where people in need have a tool to communicate effortlessly about needing help.
-We encourage people to work with us so we can provide the best possible experience.
-There is a lot more to come in the future. 
-To name a few examples
-* Support more devices
-* Quick responses
-
-### OSO in a nutshell - How does it work?
-When you are emitting an emergency our backend will receive it.
-It tries to identify you, so it can distribute it to the persons which you've listed.
-Your listed helpers are then getting notified via our app.
-
-# Technical
 Monolithic backend written in Kotlin for the OSO Project. 
-Gradle is used as dependency management and build tool.
+It uses Gradle as dependency management and build tool.
 
 Exposes a HTTP and TCP Port where different devices can communicate with it.
 The backend then redirects emergencies to the registered Help-Providers.
@@ -92,6 +30,7 @@ If something in this README is unclear, just let us know.
 * [Devices](#devices)
     * [Supported devices](#supported-devices)
     * [Configuration](#configuration)
+* [Future](#future)
 
 ## Application
 We use docker to build images and docker-compose to run the assembled images in containers in the production environment.
@@ -274,6 +213,14 @@ Documentation is following...
 
 >For more information about the ReachFar Tracker visit<br>
 http://www.reachfargps.com/products/RF-V18.html
+
+## Future
+We try to build a platform where people in need have a tool to communicate effortlessly about needing help.
+We encourage people to work with us so we can provide the best possible experience.
+There is a lot more to come in the future. 
+To name a few examples
+* Support more devices
+* Quick responses
 
 # Contribute to the project
 Everyone is welcome to contribute to this project.
