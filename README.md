@@ -1,5 +1,5 @@
 # <img src="https://user-images.githubusercontent.com/19901781/46945965-8cb21700-d076-11e8-8c82-95af6b7388b3.png" width="80" height="80"> OSO Backend
-[![Build Status](https://travis-ci.com/pwilken/OpenSourceTrackingSystem.svg?token=YUzfzW96QR4BesPEUUqv&branch=master)](https://travis-ci.com/pwilken/OpenSourceTrackingSystem)
+[![Build Status](https://travis-ci.com/OSOSystem/oso-backend.svg?branch=master)](https://travis-ci.com/OSOSystem/oso-backend)
 
 Monolithic backend written in Kotlin for the OSO Project. 
 It uses Gradle as dependency management and build tool.
