@@ -26,10 +26,6 @@ If something in this README is unclear, just let us know.
     * [Starting](#starting)
         * [Docker Compose](#docker-compose)
         * [By Hand](#by-hand)
-* [Devices](#devices)
-    * [Supported devices](#supported-devices)
-    * [Configuration](#configuration)
-* [Future](#future)
 
 ## Application
 We use docker to build images and docker-compose to run the assembled images in containers in the production environment.
@@ -133,7 +129,6 @@ When starting a Keycloak instance and you want to adjust some settings you need 
 **user**: developer<br>
 **password**: ososystem
 
-
 ### Starting
 #### Docker Compose
 We have multiple compose files.
@@ -172,48 +167,6 @@ It can be started like any other java application
 ```
 java -Dspring.profiles.active=local -jar build/libs/oso*.jar
 ```
-
-# Devices
-We aim to incorporate more devices as the development goes further.
-
-## Supported devices
-The currently supported devices are listed below
-* [Smartphone (Android/iOS)](#smartphone-androidios)
-* [Flic Button](#flic-button)
-* [ReachFar Tracker RF-V18](#reachfar-tracker-rf-v18)
-
-Any idea on which device we should look into next? Just write us.
-If the requested device fits, we try to get our hands on it so we can make it work with the backend.
-
-## Configuration
-Every device has its own way to send data, it may use TCP with its own protocol or HTTP.
-It may be that several configuration steps have to be done before a device can communicate with this backend. 
-
-### Smartphone (Android/iOS)
-We provide an app written in React Native so you are able to send emergencies with your Smartphone.
-
-### Flic Button
-The Flic Button works in conjunction with the Smartphone over Bluetooth.
-
-We provide a seamless integration of the Flic Button in our Smartphone app. Thus the same app can be used.<br> 
-By clicking on the Button for instance an emergency is automatically sent to the backend.
-
->For more information about the ReachFar Tracker visit<br>
-https://flic.io/ 
-
-### ReachFar Tracker RF-V18
-Documentation is following...
-
->For more information about the ReachFar Tracker visit<br>
-http://www.reachfargps.com/products/RF-V18.html
-
-## Future
-We try to build a platform where people in need have a tool to communicate effortlessly about needing help.
-We encourage people to work with us so we can provide the best possible experience.
-There is a lot more to come in the future. 
-To name a few examples
-* Support more devices
-* Quick responses
 
 # Contribute to the project
 Everyone is welcome to contribute to this project.
