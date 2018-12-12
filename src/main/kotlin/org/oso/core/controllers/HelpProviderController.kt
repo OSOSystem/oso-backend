@@ -6,6 +6,7 @@ import org.oso.core.exceptions.HelpProviderNotFoundException
 import org.oso.core.services.HelpProviderService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.net.URI
@@ -24,13 +25,13 @@ class HelpProviderController
 
     @GetMapping("{id}")
     @ResponseBody
-    fun findById(@PathVariable id: Long): HelpProviderDto {
+    fun findById(@PathVariable id: String): HelpProviderDto {
         return getHelpProviderOrFail(id).toDto()
     }
 
     @GetMapping("{id}/$PATH_HELP_REQUESTERS")
     @ResponseBody
-    fun findHelpRequesters(@PathVariable id: Long): List<HelpRequesterDto> {
+    fun findHelpRequesters(@PathVariable id: String): List<HelpRequesterDto> {
         val helpProvider = getHelpProviderOrFail(id)
         return helpProviderService.findHelpRequesters(helpProvider.id!!).map { it.toDto() }
     }
@@ -44,7 +45,7 @@ class HelpProviderController
 
     // TODO eventually move to emergency controller
     @PostMapping(PATH_ACCEPT_EMERGENCY)
-    fun acceptEmergency(emergencyAccepted: EmergencyAcceptedDto): ResponseEntity<Unit> {
+    fun acceptEmergency(@RequestBody emergencyAccepted: EmergencyAcceptedDto): ResponseEntity<Unit> {
         helpProviderService.acceptEmergency(
             emergencyId = emergencyAccepted.emergencyId,
             helpProviderId = emergencyAccepted.helpProviderId
@@ -53,9 +54,14 @@ class HelpProviderController
         return ResponseEntity.accepted().build<Unit>()
     }
 
-    private fun getHelpProviderOrFail(id: Long): HelpProvider {
+    private fun getHelpProviderOrFail(id: String): HelpProvider {
         return helpProviderService.findById(id) ?: throw HelpProviderNotFoundException("HelpProvider<$id> not found")
     }
+
+    private fun HelpProviderPushDto.toEntity() = HelpProvider(
+        name = name,
+        keycloakName = SecurityContextHolder.getContext().authentication.name
+    )
 
     companion object {
         const val PATH_HELP_PROVIDERS = "help-providers"

@@ -5,8 +5,8 @@ import org.oso.core.entities.HelpRequester
 
 interface HelpProviderService {
     fun findAll(): List<HelpProvider>
-    fun findById(id: Long): HelpProvider?
-    fun findHelpRequesters(id: Long): Set<HelpRequester>
+    fun findById(id: String): HelpProvider?
+    fun findHelpRequesters(id: String): Set<HelpRequester>
     fun createHelpProvider(helpProvider: HelpProvider): HelpProvider
-    fun acceptEmergency(emergencyId: Long, helpProviderId: Long)
+    fun acceptEmergency(emergencyId: String, helpProviderId: String)
 }

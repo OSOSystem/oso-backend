@@ -1,6 +1,6 @@
 package org.oso.core.services.impl
 
-import org.oso.core.entities.Action
+import org.oso.core.entities.EmergencyActionType
 import org.oso.core.entities.HelpProvider
 import org.oso.core.entities.HelpRequester
 import org.oso.core.repositories.HelpProviderRepository
@@ -27,11 +27,11 @@ class DefaultHelpProviderService
         return helpProviderRepository.findAll().toList()
     }
 
-    override fun findById(id: Long): HelpProvider? {
+    override fun findById(id: String): HelpProvider? {
         return helpProviderRepository.findById(id).orElse(null)
     }
 
-    override fun findHelpRequesters(id: Long): Set<HelpRequester> {
+    override fun findHelpRequesters(id: String): Set<HelpRequester> {
         val helpProvider = findById(id)
         return helpProvider?.helpRequesters.orEmpty()
     }
@@ -39,7 +39,7 @@ class DefaultHelpProviderService
     override fun createHelpProvider(helpProvider: HelpProvider): HelpProvider =
         helpProviderRepository.save(helpProvider)
 
-    override fun acceptEmergency(emergencyId: Long, helpProviderId: Long) {
+    override fun acceptEmergency(emergencyId: String, helpProviderId: String) {
         val emergency = emergencyService.findEmergency(emergencyId);
         LOGGER.debug("emergency<$emergencyId> accepted by helpProvider<$helpProviderId>")
 
@@ -61,7 +61,7 @@ class DefaultHelpProviderService
             return
         }
 
-        emergencyActionService.addAction(emergency, helpProvider, Action.ACCEPT)
+        emergencyActionService.addAction(emergency, helpProvider, EmergencyActionType.TYPE_ACCEPT)
 
         if (!emergency.active) {
             LOGGER.info("emergency<$emergencyId> is already resolved")

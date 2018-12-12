@@ -5,6 +5,6 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface HelpProviderRepository: CrudRepository<HelpProvider, Long> {
+interface HelpProviderRepository: CrudRepository<HelpProvider, String> {
 
 }

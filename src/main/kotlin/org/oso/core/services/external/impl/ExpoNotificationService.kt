@@ -59,7 +59,7 @@ class ExpoNotificationService
             emergency = emergency
         )
 
-    override fun createEmergencyAcceptedPushNotification(to: String, alarmID: Long, helpRequesterId: Long, helpProviderId: Long): PushNotification =
+    override fun createEmergencyAcceptedPushNotification(to: String, alarmID: String, helpRequesterId: String, helpProviderId: String): PushNotification =
         notificationFactory.createEmergencyAcceptedPushNotification(
             to = to,
             alarmID = alarmID,

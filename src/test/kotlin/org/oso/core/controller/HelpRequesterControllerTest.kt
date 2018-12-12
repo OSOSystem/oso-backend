@@ -34,25 +34,20 @@ class HelpRequesterControllerTest {
     fun testFindHelpProviders() {
         val helpProviders = listOf(
             HelpProvider(
+                id = "88",
                 name = "A",
-                password = "Password",
-                phoneNumber = "phoneNumber",
-                email = "email",
+                keycloakName = "keycloakA",
                 expoPushToken = "expo"
             ),
             HelpProvider(
+                id = "1268",
                 name = "B",
-                password = "secret",
-                phoneNumber = null,
-                email = null,
+                keycloakName = "keycloakB",
                 expoPushToken = null
             )
         )
 
-        helpProviders[0].id = 88
-        helpProviders[1].id = 1268
-
-        val id = 25.toLong()
+        val id = "25"
 
         Mockito.doReturn(helpProviders.toSet()).`when`(helpRequesterService).findHelpProviders(id)
 
@@ -62,22 +57,16 @@ class HelpRequesterControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(2)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(helpProviders[0].id?.toInt())))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(helpProviders[0].id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.`is`(helpProviders[0].name)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].email", Matchers.`is`(helpProviders[0].email)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].phoneNumber", Matchers.`is`(helpProviders[0].phoneNumber)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].password", Matchers.`is`(helpProviders[0].password)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(helpProviders[1].id?.toInt())))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(helpProviders[1].id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.`is`(helpProviders[1].name)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].email", Matchers.`is`(helpProviders[1].email)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].phoneNumber", Matchers.`is`(helpProviders[1].phoneNumber)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].password", Matchers.`is`(helpProviders[1].password)))
             .andDo(MockMvcRestDocumentation.document("${HelpRequesterController.PATH_HELP_REQUESTERS}/id/${HelpRequesterController.PATH_HELP_PROVIDERS}"))
     }
 
     @Test
     fun `testFindHelpProviders throws exception on unknown HelpRequester`() {
-        Mockito.`when`(helpRequesterService.findHelpProviders(ArgumentMatchers.anyLong())).thenReturn(null)
+        Mockito.`when`(helpRequesterService.findHelpProviders(ArgumentMatchers.anyString())).thenReturn(null)
 
         this.mockMvc.perform(
             MockMvcRequestBuilders

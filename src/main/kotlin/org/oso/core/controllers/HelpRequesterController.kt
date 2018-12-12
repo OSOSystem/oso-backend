@@ -20,7 +20,7 @@ class HelpRequesterController
 
     @GetMapping("{id}/$PATH_HELP_PROVIDERS")
     @ResponseBody
-    fun findHelpProviders(@PathVariable id: Long): List<HelpProviderDto> {
+    fun findHelpProviders(@PathVariable id: String): List<HelpProviderDto> {
         return helpRequesterService.findHelpProviders(id)?.map { it.toDto() }?: throw HelpRequesterNotFoundException("HR with id $id not found")
     }
 

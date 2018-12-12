@@ -39,20 +39,17 @@ class AppInitialData
         deviceTypeRepository.save(typeApp)
 
         val flicButton = Device(
-            name = "Flic Button",
-            description = "",
             deviceType = typeFlic
         )
+        flicButton.id = "Flic Button"
         val reachFarTracker = Device(
-            name = "ReachFar Tracker",
-            description = "",
             deviceType = typeReachfar
         )
+        reachFarTracker.id = "ReachFar Tracker"
         val nanoTracker = Device(
-            name = "Nano Tracker",
-            description = "",
             deviceType = typeNanoTracker
         )
+        nanoTracker.id = "Nano Tracker"
 
         deviceRepository.save(flicButton)
         deviceRepository.save(reachFarTracker)

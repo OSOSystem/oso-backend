@@ -30,11 +30,12 @@ class DefaultEmergencyServiceTest {
     @Test
     fun testEmit() {
         val helpRequester = HelpRequester(
-            name = "helpRequester"
+            name = "helpRequester",
+            keycloakName = "HelpRequester"
         )
         val helpProvider = HelpProvider(
             name = "HelpProvider",
-            password = "HelpProvider"
+            keycloakName = "HelpProvider"
         )
         val emergency = Emergency(
             helpRequester = helpRequester
@@ -66,11 +67,12 @@ class DefaultEmergencyServiceTest {
     @Test
     fun `testEmit without notifications`() {
         val helpRequester = HelpRequester(
-                name = "helpRequester"
+                name = "helpRequester",
+                keycloakName = "HelpRequester"
         )
         val helpProvider = HelpProvider(
                 name = "HelpProvider",
-                password = "HelpProvider"
+                keycloakName = "HelpProvider"
         )
         val emergency = Emergency(
                 helpRequester = helpRequester

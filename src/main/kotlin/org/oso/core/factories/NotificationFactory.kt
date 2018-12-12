@@ -2,7 +2,7 @@ package org.oso.core.factories
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.oso.core.dtos.PushNotification
-import org.oso.core.entities.Coordinates
+import org.oso.core.entities.Coordinate
 import org.oso.core.entities.Emergency
 import org.oso.core.entities.EmergencyType
 import org.oso.core.services.external.GeoMapService
@@ -35,7 +35,7 @@ class NotificationFactory constructor(
         )
     }
 
-    fun createEmergencyAcceptedPushNotification(to: String, alarmID: Long, helpRequesterId: Long, helpProviderId:  Long) =
+    fun createEmergencyAcceptedPushNotification(to: String, alarmID: String, helpRequesterId: String, helpProviderId: String) =
         PushNotification(
             to,
             objectMapper.writeValueAsString(
@@ -51,14 +51,14 @@ class NotificationFactory constructor(
 }
 
 private class PushNotificationEmergency(
-    val helpRequesterId: Long,
+    val helpRequesterId: String,
     val emergencyType: EmergencyType,
-    val coordinates: Coordinates?,
+    val coordinates: Coordinate?,
     val formattedAddress: String?
 )
 
 private data class PushNotificationEmergencyAccepted(
-    val emergencyId: Long,
-    val helpRequesterId: Long,
-    val helpProviderId: Long
+    val emergencyId: String,
+    val helpRequesterId: String,
+    val helpProviderId: String
 )
