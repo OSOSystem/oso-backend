@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        kotlinVersion = "1.3.0"
-        springBootVersion = "2.1.0.RELEASE"
+        kotlinVersion = "1.3.11"
+        springBootVersion = "2.1.1.RELEASE"
         dokkaVersion = "0.9.17"
-        springIntegrationVersion = "5.1.0.RELEASE"
+        springIntegrationVersion = "5.1.3.RELEASE"
         asciiDoctorVersion = "1.5.3"
     }
     repositories {
