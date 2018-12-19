@@ -1,5 +1,5 @@
 # <img src="https://user-images.githubusercontent.com/19901781/46945965-8cb21700-d076-11e8-8c82-95af6b7388b3.png" width="80" height="80"> OSO Backend
-[![Build Status](https://travis-ci.com/OSOSystem/oso-backend.svg?branch=master)](https://travis-ci.com/OSOSystem/oso-backend)
+[![Build Status](https://travis-ci.com/OSOSystem/oso-backend.svg?branch=develop)](https://travis-ci.com/OSOSystem/oso-backend)
 
 Monolithic backend written in Kotlin for the OSO Project. 
 It uses Gradle as dependency management and build tool.
@@ -8,17 +8,17 @@ Exposes a HTTP and TCP Port where different devices can communicate with it.
 The backend then redirects emergencies to the registered Help-Providers.
 
 # Development environment
-As this is an open source project we want strongly encourage you to get involved. :relaxed:<br>
+As this is an open source project we want to encourage you to get involved. :relaxed:<br>
 Here is a guide on how to setup a development environment primarily on a Linux/Unix system.
-Windows should work with our Docker setup too though.
+Windows should work with our Docker setup too.
 If something in this README is unclear, just let us know.
 
 ### Table of contents
 * [Application](#application)
     * [Building](#building)
     * [Spring](#spring)
-        * [Profiles](#profiles)
         * [Tasks](#tasks)
+        * [REST Docs](#rest-docs)
     * [Database](#database)
         * [PostgreSQL](#postgresql)
     * [Keycloak](#keycloak)
@@ -52,25 +52,17 @@ It will be used by ``docker-compose`` in the [Starting](#starting) section.
 ---
 
 ### Spring
-#### Profiles
-When starting the application there are several application profiles which Spring can choose from. 
-The [application.yml](src/main/resources/application.yml) is the default one which is always loaded into memory.
-Properties defined in there can be overwritten by an another profile though.
-
-There is an [application-local.yml](src/main/resources/application-local.yml) in this repository. 
-This file is ignored by git because sensitive information should be stored there 
-like your credentials for the database.
-
-> **Note**: If you want to create a different profile, name it this way ``application-placeholder.yml``.<br>
-The ``placeholder`` is then used by Spring as the profile name and can be loaded by passing this argument to the JVM <br>
-``-Dspring.profile.active=placeholder``
-
 #### Tasks
 Tasks can be executed with Gradle. Spring provides several of them.
 
 We extended the ``bootRun`` task in the ``build.gradle`` to active the ``local`` profile for Spring.
 Furthermore we introduced a new task called ``bootRunDev`` which extends the ``bootRun`` task.
 It gives us the possibility to attach a remote debugger to the running application. 
+
+#### REST Docs
+When writing tests the documentation will be generated with Spring REST Docs.
+There is a Gradle Task ``asciidoctor`` which assembles the generated snippets.
+After the task is executed the documentation can be found under [asciidoc](src/main/asciidoc).
 
 ---
 
@@ -79,13 +71,9 @@ It gives us the possibility to attach a remote debugger to the running applicati
 We use PostgreSQL as our primary data store.
 The tables are generated automatically from the JPA Entities described in the source code. 
 
-The [init.sh](postgres/init.sh) script creates the application and Keycloak database with a new owning user.
-When adjusting the username and password make sure that it matches the one you stored in
-[application-local.yml](src/main/resources/application-local.yml).
-
 ##### Docker
 We provide a [Dockerfile](postgres/Dockerfile) which uses the ``postgres:alpine`` image as base and copies the
-[init.sh](postgres/init.sh) on it. The script makes sure to initialize the database. 
+[init.sh](postgres/init.sh) on it. The script makes sure to create the needed users and databases.
 
 A ``pgdata`` directory will be mounted to the container therefore a directory has to be created first.
 ```
@@ -178,6 +166,7 @@ Any questions or suggestions? Just write an E-Mail to [contact@ososystem.de](mai
 
 If you want to get in touch with us in a more relaxed atmosphere, consider joining the discord server.<br>
 :boom:[Instant Transmission](https://discord.gg/3rBUjtm):boom:
+The [init.sh](postgres/init.sh) script creates the application and Keycloak database with a new owning user.
 
 # License
 This project is released under version 2.0 of the [Apache License](LICENSE.md).
