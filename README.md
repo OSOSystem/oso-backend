@@ -40,6 +40,9 @@ We don't want to force anyone to use docker.
 Therefore docker is not necessary for this setup to work.
 You can decide whatever fits you best.
 
+>The image can be found under<br>
+https://hub.docker.com/r/ososystem/backend
+
 ### Building
 The jar can be built by using the Gradle Wrapper which is included in this repository   
 ```
@@ -166,7 +169,6 @@ Any questions or suggestions? Just write an E-Mail to [contact@ososystem.de](mai
 
 If you want to get in touch with us in a more relaxed atmosphere, consider joining the discord server.<br>
 :boom:[Instant Transmission](https://discord.gg/3rBUjtm):boom:
-The [init.sh](postgres/init.sh) script creates the application and Keycloak database with a new owning user.
 
 # License
 This project is released under version 2.0 of the [Apache License](LICENSE.md).

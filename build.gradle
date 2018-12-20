@@ -21,7 +21,7 @@ buildscript {
 }
 
 ext {
-    keycloakVersion = "4.6.0.Final"
+    keycloakVersion = "4.8.1.Final"
 }
 
 apply plugin: "kotlin"
