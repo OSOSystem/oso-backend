@@ -25,15 +25,15 @@ class DefaultDeviceService
     }
 
     override fun createIfMissing(name: String, description: String, deviceType: DeviceType?): Device {
-        var dev = deviceRepository.findById(name).get()
-        if (dev == null) {
-            dev = Device(
+        var device = deviceRepository.findById(name).orElse(null)
+        if (device == null) {
+            device = Device(
                 deviceType = deviceType
             )
-            dev.id = name
-            deviceRepository.save(dev)
+            device.id = name
+            deviceRepository.save(device)
         }
-        return dev
+        return device
     }
 
     override fun findTypeByName(name: String): DeviceType? =

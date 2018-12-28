@@ -35,12 +35,12 @@ class NotificationFactory constructor(
         )
     }
 
-    fun createEmergencyAcceptedPushNotification(to: String, alarmID: String, helpRequesterId: String, helpProviderId: String) =
+    fun createEmergencyAcceptedPushNotification(to: String, alarmId: String, helpRequesterId: String, helpProviderId: String) =
         PushNotification(
             to,
             objectMapper.writeValueAsString(
                 PushNotificationEmergencyAccepted(
-                    emergencyId = alarmID,
+                    emergencyId = alarmId,
                     helpRequesterId = helpRequesterId,
                     helpProviderId =  helpProviderId
                 )
