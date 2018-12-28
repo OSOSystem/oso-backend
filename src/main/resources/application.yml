@@ -44,3 +44,6 @@ keycloak:
         - name: all
           patterns:
             - /*
+
+email:
+  from: contact@ososystem.de
