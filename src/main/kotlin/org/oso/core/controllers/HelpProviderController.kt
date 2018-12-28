@@ -4,9 +4,9 @@ import org.oso.core.dtos.*
 import org.oso.core.entities.HelpProvider
 import org.oso.core.exceptions.HelpProviderNotFoundException
 import org.oso.core.services.HelpProviderService
+import org.oso.core.services.SecurityService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
 import java.net.URI
@@ -15,7 +15,8 @@ import java.net.URI
 @RequestMapping(HelpProviderController.PATH_HELP_PROVIDERS)
 class HelpProviderController
     @Autowired
-    constructor(private val helpProviderService: HelpProviderService) {
+    constructor(private val helpProviderService: HelpProviderService,
+                private val securityService: SecurityService) {
 
     @GetMapping
     @ResponseBody
@@ -60,7 +61,7 @@ class HelpProviderController
 
     private fun HelpProviderPushDto.toEntity() = HelpProvider(
         name = name,
-        keycloakName = SecurityContextHolder.getContext().authentication.name
+        keycloakName = securityService.getCurrentUserName()
     )
 
     companion object {
