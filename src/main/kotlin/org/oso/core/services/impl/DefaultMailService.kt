@@ -55,6 +55,6 @@ class DefaultMailService
     }
 
     companion object {
-        private val LOGGER: Logger = LoggerFactory.getLogger(DefaultHelpProviderService::class.java)
+        private val LOGGER: Logger = LoggerFactory.getLogger(DefaultMailService::class.java)
     }
 }
