@@ -45,7 +45,10 @@ class DefaultMailService
                     mailSender.send(mail)
                     LOGGER.info("Mail was sent to {}", mail)
                 } catch (e: MailException) {
-                    failedToDeliverParticipants += mail.to!![0]
+                    mail.to?.let {
+                        failedToDeliverParticipants += it
+                    }
+
                     LOGGER.error("{}", e.localizedMessage, e)
                 }
             }
