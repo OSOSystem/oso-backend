@@ -10,6 +10,7 @@ interface MailService {
      * @param participants The people to send the email to
      * @param subject The subject of the mail
      * @param text The text of the mail
+     * @return A list containing all [participants] where the mail could not be delivered to
      */
-    fun send(from: String, participants: List<String>, subject: String, text: String)
+    fun send(from: String, participants: List<String>, subject: String, text: String): List<String>
 }
