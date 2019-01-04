@@ -3,6 +3,7 @@ package org.oso.core.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.hamcrest.Matchers
 import org.hamcrest.collection.IsCollectionWithSize
+import org.junit.Before
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers
@@ -14,6 +15,7 @@ import org.oso.core.dtos.HelpProviderPushDto
 import org.oso.core.entities.HelpProvider
 import org.oso.core.entities.HelpRequester
 import org.oso.core.services.HelpProviderService
+import org.oso.core.services.SecurityService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -35,6 +37,14 @@ class HelpProviderControllerTest {
 
     @MockBean
     lateinit var helpProviderService: HelpProviderService
+
+    @MockBean
+    lateinit var securityService: SecurityService
+
+    @Before
+    fun init() {
+        Mockito.`when`(securityService.getCurrentUserName()).thenReturn(userName)
+    }
 
     @Test
     fun testFindAll() {
@@ -233,5 +243,9 @@ class HelpProviderControllerTest {
 //
 //        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
 //        testFailOnMissingParameters(mockMvc, "${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}", parameters)
+    }
+
+    companion object {
+        private const val userName = "User"
     }
 }
