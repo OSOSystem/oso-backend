@@ -20,25 +20,19 @@ class DefaultMailService
      *                  Therefore it is annotated with @Suppress.
     */
     @Autowired constructor(
-        @Value("\${email.from}")
-        private val FROM: String,
         @Suppress
         private val mailSender: JavaMailSender
     ) : MailService {
 
-    override fun send(participants: List<String>, subject: String, text: String) {
-        require(FROM.isNotEmpty()) { "The email.from key should be set for an outgoing email." }
-
-        if (mailSender !is JavaMailSenderImpl) {
-            return
+    override fun send(from: String, participants: List<String>, subject: String, text: String) {
+        if (mailSender is JavaMailSenderImpl) {
+            mailSender.javaMailProperties["mail.smtp.ssl.enable"] = "true"
         }
-
-        mailSender.javaMailProperties["mail.smtp.ssl.enable"] = "true"
 
         participants
             .map { participant ->
                 SimpleMailMessage().apply {
-                    setFrom(FROM)
+                    setFrom(from)
                     setTo(participant)
                     setSubject(subject)
                     setText(text)

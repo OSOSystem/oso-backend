@@ -6,10 +6,10 @@ package org.oso.core.services
 interface MailService {
     /**
      * Sends a mail to the given [participants].
-     *
+     * @param from The address to send the email from
      * @param participants The people to send the email to
      * @param subject The subject of the mail
      * @param text The text of the mail
      */
-    fun send(participants: List<String>, subject: String, text: String)
+    fun send(from: String, participants: List<String>, subject: String, text: String)
 }
