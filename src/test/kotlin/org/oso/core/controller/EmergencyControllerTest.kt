@@ -3,8 +3,11 @@ package org.oso.core.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
+import org.mockito.ArgumentMatcher
 import org.mockito.ArgumentMatchers
+import org.mockito.Matchers
 import org.mockito.Mockito
+import org.oso.any
 import org.oso.core.controllers.EmergencyController
 import org.oso.core.dtos.EmergencyDto
 import org.oso.core.entities.Emergency
@@ -37,14 +40,19 @@ class EmergencyControllerTest {
     @MockBean
     lateinit var helpRequesterService: HelpRequesterService
 
+    @Autowired
+    lateinit var objectMapper: ObjectMapper
+
     @Test
     fun testEmit() {
         val helpRequester = HelpRequester(
-            name = "HelpRequester"
+            name = "HelpRequester",
+            keycloakName = "Keycloak4711",
+            id = "UUID-4711-0815"
         )
-        helpRequester.id = 1
 
         val emergency = Emergency(
+            "4711",
             helpRequester,
             EmergencyType.LOW
         )
@@ -54,8 +62,8 @@ class EmergencyControllerTest {
             emergency.emergencyType
         )
 
-        Mockito.doNothing().`when`(emergencyService).emit(emergency)
-        Mockito.`when`(helpRequesterService.findById(1)).thenReturn(helpRequester)
+        Mockito.doNothing().`when`(emergencyService).emit(any())
+        Mockito.`when`(helpRequesterService.findById(helpRequester.id!!)).thenReturn(helpRequester)
 
         this.mockMvc
             .perform(
@@ -63,23 +71,24 @@ class EmergencyControllerTest {
                     .post("/${EmergencyController.PATH_EMERGENCY}/${EmergencyController.PATH_EMIT}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8.name())
-                    .content(ObjectMapper().writeValueAsString(emergencyDto)))
+                    .content(objectMapper.writeValueAsString(emergencyDto)))
 
             .andExpect(MockMvcResultMatchers.status().isCreated)
             .andDo(MockMvcRestDocumentation.document(EmergencyController.PATH_EMERGENCY))
 
-        Mockito.verify(emergencyService, Mockito.times(1)).emit(emergency)
+        // TODO test if the argument for emit has the correct parameters
+        Mockito.verify(emergencyService, Mockito.times(1)).emit(any())
         Mockito.verifyNoMoreInteractions(emergencyService)
     }
 
     @Test
     fun `testEmit Excpetion on unknown helpRequester`() {
         val emergencyDto = EmergencyDto(
-            25,
+            "25",
             EmergencyType.LOW
         )
 
-        Mockito.`when`(helpRequesterService.findById(ArgumentMatchers.anyLong())).thenThrow(IllegalArgumentException())
+        Mockito.`when`(helpRequesterService.findById(ArgumentMatchers.anyString())).thenThrow(IllegalArgumentException())
         Mockito.doReturn(null).`when`(helpRequesterService).findById(emergencyDto.helprequester)
 
         this.mockMvc

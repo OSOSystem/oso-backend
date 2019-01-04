@@ -16,5 +16,5 @@ interface NotificationService {
     fun sendPushNotification(pushNotifications: List<PushNotification>)
 
     fun createEmergencyPushNotification(to: String, emergency: Emergency): PushNotification
-    fun createEmergencyAcceptedPushNotification(to: String, alarmID: Long, helpRequesterId: Long, helpProviderId:  Long): PushNotification
+    fun createEmergencyAcceptedPushNotification(to: String, alarmID: String, helpRequesterId: String, helpProviderId: String): PushNotification
 }

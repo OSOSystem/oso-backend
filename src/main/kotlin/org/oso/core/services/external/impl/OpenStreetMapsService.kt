@@ -1,7 +1,7 @@
 package org.oso.core.services.external.impl
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.oso.core.entities.Coordinates
+import org.oso.core.entities.Coordinate
 import org.oso.core.services.external.GeoMapService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpEntity
@@ -31,7 +31,7 @@ class OpenStreetMapsService
     private val NOMINATIM = "https://nominatim.openstreetmap.org"
 
     // TODO consider the importance value in the json v2 format
-    override fun resolve(coordinates: Coordinates): String? {
+    override fun resolve(coordinates: Coordinate): String? {
         val headers = HttpHeaders()
         headers.add("Referer", "https://app.ososystem.de")
         val entity = HttpEntity<String>(headers)

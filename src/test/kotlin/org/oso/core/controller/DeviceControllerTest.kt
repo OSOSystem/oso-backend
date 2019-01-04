@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito.`when`
 import org.oso.core.controllers.DeviceController
 import org.oso.core.entities.Device
+import org.oso.core.entities.DeviceType
 import org.oso.core.services.DeviceService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
@@ -32,10 +33,19 @@ class DeviceControllerTest {
 
     @Test
     fun testFindAll() {
+        val typeFlic = DeviceType(
+            "Flic-Button"
+        )
+        val typeReachfar = DeviceType(
+            "Rechfar Tracker RV-V18"
+        )
+        val typeNano = DeviceType(
+            "Nano Tracker"
+        )
         val devices = listOf(
-            Device(null, "Flic-Button", "World smallest button"),
-            Device(null, "ReachFar Tracker RF-V16", "Cheap allrounder tracker"),
-            Device(null, "Nano Tracker", "World smallest tracker")
+            Device("Flic1", null, typeFlic),
+            Device("Reachfar1234567890", null, typeReachfar),
+            Device("Nano4711", null, typeNano)
         )
 
         `when`(deviceService.findAll()).thenReturn(devices)
@@ -44,12 +54,12 @@ class DeviceControllerTest {
             .perform(get("/${DeviceController.PATH_DEVICES}").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(3)))
-            .andExpect(jsonPath("$[0].name", `is`(devices[0].name)))
-            .andExpect(jsonPath("$[0].description", `is`(devices[0].description)))
-            .andExpect(jsonPath("$[1].name", `is`(devices[1].name)))
-            .andExpect(jsonPath("$[1].description", `is`(devices[1].description)))
-            .andExpect(jsonPath("$[2].name", `is`(devices[2].name)))
-            .andExpect(jsonPath("$[2].description", `is`(devices[2].description)))
+            .andExpect(jsonPath("$[0].id", `is`(devices[0].id)))
+            .andExpect(jsonPath("$[0].deviceType.name", `is`(devices[0].deviceType!!.name)))
+            .andExpect(jsonPath("$[1].id", `is`(devices[1].id)))
+            .andExpect(jsonPath("$[1].deviceType.name", `is`(devices[1].deviceType!!.name)))
+            .andExpect(jsonPath("$[2].id", `is`(devices[2].id)))
+            .andExpect(jsonPath("$[2].deviceType.name", `is`(devices[2].deviceType!!.name)))
             .andDo(document(DeviceController.PATH_DEVICES))
     }
 }

@@ -30,31 +30,21 @@ class AppInitialData
 
         val typeReachfar = DeviceType(DeviceService.DEVICE_TYPE_REACHFAR)
         val typeNanoTracker = DeviceType(DeviceService.DEVICE_TYPE_NANO_TRACKER)
-        val typeFlic = DeviceType(DeviceService.DEVICE_TYPE_FLIC)
         val typeApp = DeviceType(DeviceService.DEVICE_TYPE_APP)
 
         deviceTypeRepository.save(typeReachfar)
         deviceTypeRepository.save(typeNanoTracker)
-        deviceTypeRepository.save(typeFlic)
         deviceTypeRepository.save(typeApp)
 
-        val flicButton = Device(
-            name = "Flic Button",
-            description = "",
-            deviceType = typeFlic
-        )
         val reachFarTracker = Device(
-            name = "ReachFar Tracker",
-            description = "",
             deviceType = typeReachfar
         )
+        reachFarTracker.id = "ReachFar Tracker"
         val nanoTracker = Device(
-            name = "Nano Tracker",
-            description = "",
             deviceType = typeNanoTracker
         )
+        nanoTracker.id = "Nano Tracker"
 
-        deviceRepository.save(flicButton)
         deviceRepository.save(reachFarTracker)
         deviceRepository.save(nanoTracker)
     }

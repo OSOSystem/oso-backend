@@ -1,6 +1,5 @@
 package org.oso.core.services.impl
 
-import org.oso.core.entities.Action
 import org.oso.core.entities.Emergency
 import org.oso.core.entities.EmergencyAction
 import org.oso.core.entities.HelpProvider
@@ -10,15 +9,16 @@ import org.springframework.stereotype.Service
 
 @Service
 class DefaultEmergencyActionService(
-    val emergencyActionRepository: EmergencyActionRepository
+    val emergencyActionRepository: EmergencyActionRepository,
+    val emergencyActionTypeService: DefaultEmergencyActionTypeService
 ) : EmergencyActionService {
 
-    override fun addAction(emergency: Emergency, helpProvider: HelpProvider, action: Action) {
+    override fun addAction(emergency: Emergency, helpProvider: HelpProvider, action: String) {
         emergencyActionRepository.save(
             EmergencyAction(
                 emergency = emergency,
                 helpProvider = helpProvider,
-                action = action
+                type = emergencyActionTypeService.findByName(action)
             )
         )
     }

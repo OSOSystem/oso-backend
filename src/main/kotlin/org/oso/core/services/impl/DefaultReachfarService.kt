@@ -1,6 +1,6 @@
 package org.oso.core.services.impl
 
-import org.oso.core.entities.Coordinates
+import org.oso.core.entities.Coordinate
 import org.oso.core.services.DeviceService
 import org.oso.core.services.ReachfarService
 import org.oso.devices.reachfar.ReachFarMsgType
@@ -25,14 +25,14 @@ class DefaultReachfarService(
             deviceType = deviceService.findTypeByName(DeviceService.DEVICE_TYPE_REACHFAR)
         )
 
-        LOGGER.debug("reaceived msg$msg> from Reachfar<${device.name}>")
+        LOGGER.debug("reaceived msg$msg> from Reachfar<${device.id}>")
 
         // TODO store state data in repository somewhere
-        if (!mapDeviceToState.containsKey(device.name)) {
+        if (!mapDeviceToState.containsKey(device.id)) {
             val state = TrackerState()
-            mapDeviceToState[device.name] = state
+            mapDeviceToState[device.id!!] = state
             state.onStateChanged = { index, newState ->
-                stateChanged(device.name, index, newState)
+                stateChanged(device.id!!, index, newState)
             }
         }
 
@@ -48,7 +48,7 @@ class DefaultReachfarService(
         stateParams.filter {
             data.containsKey(it)
         }.forEach {
-            mapDeviceToState[device.name]!!.newState(data[it]!!)
+            mapDeviceToState[device.id]!!.newState(data[it]!!)
         }
 
         if (data.containsKey(KEY_EFFECTIVE_MARK) && data[KEY_EFFECTIVE_MARK] == EFFECTIVE_MARK_VALID) {
@@ -57,7 +57,7 @@ class DefaultReachfarService(
                 val coordLatitude = parseCoordinate(data[KEY_LATITUDE]!!)
                 val coordLongtude = parseCoordinate(data[KEY_LONGITUDE]!!)
 
-                val coordinates = Coordinates(
+                val coordinates = Coordinate(
                     // northern latitude is positive
                     coordLatitude.toBigDecimal(data[KEY_LATITUDE_MARK] == LATITUDE_MARK_NORTH),
                     // eastern longitude is positive
@@ -97,12 +97,12 @@ class DefaultReachfarService(
         }
     }
 
-    private fun parseCoordinate(coordinate: String): Coordinate {
+    private fun parseCoordinate(coordinate: String): RFCoordinate {
         val iDot = coordinate.indexOf('.')
         val sDegree = coordinate.substring(0, iDot - 2)
         val sMinutes = coordinate.substring(iDot - 2)
 
-        return Coordinate(sDegree.toInt(), sMinutes.toDouble())
+        return RFCoordinate(sDegree.toInt(), sMinutes.toDouble())
     }
 
     companion object {
@@ -200,7 +200,7 @@ private class TrackerState(
     }
 }
 
-private data class Coordinate(val degree: Int, val minutes: Double) {
+private data class RFCoordinate(val degree: Int, val minutes: Double) {
     fun toBigDecimal(positive: Boolean): BigDecimal {
         val value = degree + (minutes / 60)
         return BigDecimal(if (positive) value else -value)
