@@ -1,10 +1,20 @@
 sudo: required
 
-language:
+language: java
+jdk: oraclejdk8
+
+addons:
+  sonarcloud:
+    organization: "ososystem" # the key of the org you chose at step #3
+    token:
+      secure: $SONAR_TOKEN # encrypted value of your token
+
 install: true
+
 script:
   - ./gradlew check --stacktrace
   - ./gradlew bootJar
+  - sonar-scanner
 
 jdk: openjdk8
 
@@ -13,8 +23,8 @@ services:
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t ososystem/backend .
-  - docker push ososystem/backend
+  - docker build -t osodev/backend .
+  - docker push osodev/backend
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh success $WEBHOOK_URL
