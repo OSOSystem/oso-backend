@@ -9,10 +9,12 @@ import org.springframework.context.ApplicationEventPublisher
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.context.request.WebRequest
 
-@Controller("invitation")
+@Controller
+@RequestMapping("invitation")
 class InvitationController
     @Autowired constructor(
         private val securityService: SecurityService,
@@ -34,13 +36,17 @@ class InvitationController
     }
 
     @GetMapping("accept")
-    fun accept(@RequestParam token: String) {
+    fun accept(@RequestParam token: String): String {
         val verificationToken = securityService.getEmailVerificationToken(token)
 
         if (verificationToken != null && !securityService.tokenExpired(verificationToken)) {
             val (_, helpRequester, helpProvider) = verificationToken
             helpRequester.helpProviders.add(helpProvider)
             helpProvider.helpRequesters.add(helpRequester)
+        } else {
+            return "invitationTokenExpired"
         }
+
+        return "invitationAccepted"
     }
 }

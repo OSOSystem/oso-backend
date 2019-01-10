@@ -1,12 +1,14 @@
 package org.oso.core.entities
 
+import org.hibernate.annotations.GenericGenerator
 import java.time.LocalDateTime
 import javax.persistence.*
 import javax.validation.constraints.Size
 
 @Entity
 class Emergency (
-    @Id
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(nullable = false)
     @Size(min = 1)
     var id: String? = null,

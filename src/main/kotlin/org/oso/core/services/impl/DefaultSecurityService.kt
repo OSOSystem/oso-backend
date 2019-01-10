@@ -28,6 +28,6 @@ class DefaultSecurityService
     }
 
     override fun tokenExpired(token: EmailVerificationToken): Boolean {
-        return (Date.from(Instant.now()).time - token.expiryDate.time) > EmailVerificationToken.EXPIRATION
+        return (token.expiryDate.time - Date.from(Instant.now()).time) < 0
     }
 }
