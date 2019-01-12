@@ -1,6 +1,6 @@
 package org.oso.core.listeners
 
-import org.oso.core.entities.EmailVerificationToken
+import org.oso.core.entities.VerificationToken
 import org.oso.core.events.InvitationEvent
 import org.oso.core.services.MailService
 import org.oso.core.services.SecurityService
@@ -21,7 +21,7 @@ class InvitationListener
     ) : ApplicationListener<InvitationEvent> {
 
     override fun onApplicationEvent(event: InvitationEvent) {
-        val (helpRequester, helpProvider, locale) = event
+        val (helpRequester, helpProvider, baseUrl, locale) = event
         val verificationToken = securityService.createEmailVerificationToken(helpRequester, helpProvider)
 
         val subject =
@@ -32,8 +32,8 @@ class InvitationListener
                     "invitation.text",
                     arrayOf(
                         helpRequester.keycloakName,
-                        "http://localhost:8081/invitation/accept?token=${verificationToken.token}",
-                        "${EmailVerificationToken.EXPIRATION / 60}",
+                        "$baseUrl/invitation/accept?token=${verificationToken.token}",
+                        "${VerificationToken.EXPIRATION / 60}",
                         "h"
                     ),
                     locale

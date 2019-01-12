@@ -6,7 +6,7 @@ import javax.persistence.Id
 import javax.persistence.OneToOne
 
 @Entity
-data class EmailVerificationToken(
+data class VerificationToken(
     @Id
     val token: String,
     @OneToOne

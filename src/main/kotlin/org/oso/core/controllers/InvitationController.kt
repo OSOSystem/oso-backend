@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.ui.ModelMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.context.request.WebRequest
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 @RequestMapping("invitation")
@@ -24,25 +25,31 @@ class InvitationController
     ) {
 
     @GetMapping("request")
-    fun request(webRequest: WebRequest, @RequestParam hrId: String, @RequestParam hpId: String): ResponseEntity<Unit> {
+    fun request(request: HttpServletRequest, @RequestParam hrId: String, @RequestParam hpId: String): ResponseEntity<Unit> {
         val helpRequester = helpRequesterService.findById(hrId)
         val helpProvider = helpProviderService.findById(hpId)
 
         if (helpRequester != null && helpProvider != null) {
-            eventPublisher.publishEvent(InvitationEvent(helpRequester, helpProvider, webRequest.locale))
+            eventPublisher.publishEvent(
+                InvitationEvent(
+                    helpRequester,
+                    helpProvider,
+                    "${request.protocol}://${request.serverName}:${request.localPort}",
+                    request.locale
+                )
+            )
         }
 
         return ResponseEntity.ok().build()
     }
 
     @GetMapping("accept")
-    fun accept(@RequestParam token: String): String {
-        val verificationToken = securityService.getEmailVerificationToken(token)
+    fun accept(modelMap: ModelMap, @RequestParam token: String): String {
+        val verificationToken = securityService.getVerificationToken(token)
 
-        if (verificationToken != null && !securityService.tokenExpired(verificationToken)) {
+        if (verificationToken != null && !securityService.verificationTokenExpired(verificationToken)) {
             val (_, helpRequester, helpProvider) = verificationToken
-            helpRequester.helpProviders.add(helpProvider)
-            helpProvider.helpRequesters.add(helpRequester)
+            helpRequesterService.addHelpProviderToHelpRequester(helpRequester, helpProvider)
         } else {
             return "invitationTokenExpired"
         }

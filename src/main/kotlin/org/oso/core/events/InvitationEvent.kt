@@ -8,5 +8,6 @@ import java.util.*
 data class InvitationEvent(
     val helpRequester: HelpRequester,
     val helpProvider: HelpProvider,
+    val baseUrl: String,
     val locale: Locale
 ) : ApplicationEvent(helpProvider)

@@ -81,5 +81,3 @@ build
 .gradle
 
 .idea
-
-src/main/resources/application-local.yml
