@@ -9,7 +9,7 @@ import org.oso.core.entities.VerificationToken
  */
 interface SecurityService {
     fun getCurrentUserName(): String
-    fun createEmailVerificationToken(helpRequester: HelpRequester, helpProvider: HelpProvider): VerificationToken
+    fun createVerificationToken(helpRequester: HelpRequester, helpProvider: HelpProvider): VerificationToken
     fun getVerificationToken(id: String): VerificationToken?
     fun verificationTokenExpired(token: VerificationToken): Boolean
 }

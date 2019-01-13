@@ -18,8 +18,8 @@ class DefaultSecurityService
     override fun getCurrentUserName() =
         SecurityContextHolder.getContext().authentication.name
 
-    override fun createEmailVerificationToken(helpRequester: HelpRequester, helpProvider: HelpProvider): VerificationToken {
-        return VerificationToken(UUID.randomUUID().toString(), helpRequester, helpProvider, Date.from(Instant.now()))
+    override fun createVerificationToken(helpRequester: HelpRequester, helpProvider: HelpProvider): VerificationToken {
+        return VerificationToken(UUID.randomUUID().toString(), helpRequester, helpProvider)
             .let { verificationTokenRepository.save(it) }
     }
 
@@ -28,6 +28,6 @@ class DefaultSecurityService
     }
 
     override fun verificationTokenExpired(token: VerificationToken): Boolean {
-        return (token.expiryDate.time - Date.from(Instant.now()).time) < 0
+        return token.expiryDate.isBefore(Instant.now())
     }
 }

@@ -22,7 +22,7 @@ class InvitationListener
 
     override fun onApplicationEvent(event: InvitationEvent) {
         val (helpRequester, helpProvider, baseUrl, locale) = event
-        val verificationToken = securityService.createEmailVerificationToken(helpRequester, helpProvider)
+        val verificationToken = securityService.createVerificationToken(helpRequester, helpProvider)
 
         val subject =
             messageSource.getMessage("invitation.subject", arrayOf(helpRequester.keycloakName), locale)
