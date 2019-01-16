@@ -8,7 +8,7 @@ import org.oso.core.services.SecurityService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import java.time.Instant
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
@@ -28,6 +28,6 @@ class DefaultSecurityService
     }
 
     override fun verificationTokenExpired(token: VerificationToken): Boolean {
-        return token.expiryDate.isBefore(Instant.now())
+        return token.expiryDate.isBefore(LocalDateTime.now())
     }
 }

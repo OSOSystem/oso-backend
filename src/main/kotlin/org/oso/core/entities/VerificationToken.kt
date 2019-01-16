@@ -1,7 +1,6 @@
 package org.oso.core.entities
 
-import java.time.Instant
-import java.util.*
+import java.time.LocalDateTime
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.OneToOne
@@ -14,9 +13,9 @@ data class VerificationToken(
     val helpRequester: HelpRequester,
     @OneToOne
     val helpProvider: HelpProvider,
-    val expiryDate: Instant = Calendar.getInstance().apply { add(Calendar.MINUTE, EXPIRATION) }.toInstant()
+    val expiryDate: LocalDateTime = LocalDateTime.now().plusMinutes(EXPIRATION)
 ) {
     companion object {
-        const val EXPIRATION: Int = 60 * 24
+        const val EXPIRATION: Long = 60 * 24
     }
 }

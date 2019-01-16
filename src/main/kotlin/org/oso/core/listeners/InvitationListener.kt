@@ -32,7 +32,7 @@ class InvitationListener
                     "invitation.text",
                     arrayOf(
                         helpRequester.keycloakName,
-                        "$baseUrl/invitation/accept?token=${verificationToken.token}",
+                        "${baseUrl.toExternalForm()}/invitation/accept?token=${verificationToken.token}",
                         "${VerificationToken.EXPIRATION / 60}",
                         "h"
                     ),

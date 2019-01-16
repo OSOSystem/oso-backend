@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import java.net.URL
 import javax.servlet.http.HttpServletRequest
 
 @Controller
@@ -33,7 +34,7 @@ class InvitationController
                 InvitationEvent(
                     helpRequester,
                     helpProvider,
-                    "${request.scheme}://${request.serverName}:${request.localPort}",
+                    url(request.scheme, request.serverName, request.localPort),
                     request.locale
                 )
             )
@@ -41,6 +42,8 @@ class InvitationController
 
         return ResponseEntity.ok().build()
     }
+
+    fun url(protocol: String, host: String, port: Int): URL = URL(protocol, host, port, "")
 
     @GetMapping(PATH_ACCEPT)
     fun acceptInvitation(@RequestParam token: String): String {
