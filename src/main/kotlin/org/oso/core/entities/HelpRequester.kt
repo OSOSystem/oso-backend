@@ -1,14 +1,15 @@
 package org.oso.core.entities
 
 import com.fasterxml.jackson.annotation.JsonManagedReference
+import org.hibernate.annotations.GenericGenerator
 import javax.persistence.*
 import javax.validation.constraints.Size
 
 @Entity
 @Table(name = "hr")
 data class HelpRequester(
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     @Column(nullable = false)
     @Size(min = 1)
     var id: String? = null,
