@@ -1,4 +1,5 @@
 # <img src="https://user-images.githubusercontent.com/19901781/46945965-8cb21700-d076-11e8-8c82-95af6b7388b3.png" width="80" height="80"> OSO Backend
+[![CodeFactor](https://www.codefactor.io/repository/github/ososystem/oso-backend/badge)](https://www.codefactor.io/repository/github/ososystem/oso-backend)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0942d3cc78c14274830f086ebda92274)](https://app.codacy.com/app/OSOSystem/oso-backend?utm_source=github.com&utm_medium=referral&utm_content=OSOSystem/oso-backend&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.com/pwilken/OpenSourceTrackingSystem.svg?token=YUzfzW96QR4BesPEUUqv&branch=master)](https://travis-ci.com/pwilken/OpenSourceTrackingSystem)
 
