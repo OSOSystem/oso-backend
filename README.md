@@ -4,6 +4,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/ososystem/oso-backend/badge)](https://www.codefactor.io/repository/github/ososystem/oso-backend)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0942d3cc78c14274830f086ebda92274)](https://app.codacy.com/app/OSOSystem/oso-backend?utm_source=github.com&utm_medium=referral&utm_content=OSOSystem/oso-backend&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.com/pwilken/OpenSourceTrackingSystem.svg?token=YUzfzW96QR4BesPEUUqv&branch=master)](https://travis-ci.com/pwilken/OpenSourceTrackingSystem)
+[![FOSSA Status](https://app.fossa.io/api/projects/custom%2B8559%2Fgithub.com%2FOSOSystem%2Foso-backend.svg?type=shield)](https://app.fossa.io/projects/custom%2B8559%2Fgithub.com%2FOSOSystem%2Foso-backend?ref=badge_shield)
 
 Monolithic backend written in Kotlin for the OSO Project. 
 It uses Gradle as dependency management and build tool.
