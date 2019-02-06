@@ -1,24 +1,31 @@
 package org.oso.core.entities
 
-import javax.persistence.Entity
-import javax.persistence.FetchType
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
+import java.io.Serializable
+import java.time.LocalDateTime
+import javax.persistence.*
 
 @Entity
-data class EmergencyAction(
+@IdClass(EmergencyActionId::class)
+class EmergencyAction(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emergency_id")
+    @Id
     val emergency: Emergency,
+    @Id
+    val time: LocalDateTime = LocalDateTime.now(),
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "helpprovider_id")
     val helpProvider: HelpProvider,
-    val action: Action
-) : BaseEntity()
+    @ManyToOne
+    @JoinColumn(name ="EmergencyAction_name")
+    val type: EmergencyActionType
+)
 
-enum class Action {
-    ACCEPT,
-    CANCEL_ACCEPT,
-    RESOLVE,
-    CANCEL_RESOLVE
-}
+data class EmergencyActionId(
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "emergency_id")
+    @Id
+    val emergency: Emergency,
+    @Id
+    val time: LocalDateTime = LocalDateTime.now()
+) : Serializable

@@ -1,4 +1,6 @@
 <configuration>
+    <logger name="org.oso" level="debug" />
+
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${user.home}/osologs/server-%d{yyyy-MM-dd}.log</fileNamePattern>

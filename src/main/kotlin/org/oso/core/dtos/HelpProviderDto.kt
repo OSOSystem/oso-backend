@@ -1,37 +1,21 @@
 package org.oso.core.dtos
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken
 import org.oso.core.entities.HelpProvider
+import org.springframework.security.core.context.SecurityContextHolder
 
 data class HelpProviderDto(
-    var id: Long,
+    var id: String,
     var name: String,
-    var password: String,
-    var email: String?,
-    var expoPushToken: String?,
-    var phoneNumber: String?
+    var expoPushToken: String?
 )
 
 data class HelpProviderPushDto(
-    var name: String,
-    var password: String,
-    var email: String? = null,
-    var expoPushToken: String? = null,
-    var phoneNumber: String? = null
-) {
-    fun toEntity() = HelpProvider(
-        name = name,
-        password =  password,
-        email = email,
-        expoPushToken = expoPushToken,
-        phoneNumber = phoneNumber
-    )
-}
+    var name: String
+)
 
 fun HelpProvider.toDto() = HelpProviderDto(
     id = id!!,
     name = name,
-    password = password,
-    expoPushToken = expoPushToken,
-    phoneNumber = phoneNumber,
-    email = email
+    expoPushToken = expoPushToken
 )

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.*
 import org.oso.any
 import org.oso.argThat
-import org.oso.core.entities.Coordinates
+import org.oso.core.entities.Coordinate
 import org.oso.core.entities.Device
 import org.oso.core.entities.DeviceType
 import org.oso.core.services.DeviceService
@@ -36,7 +36,7 @@ class DefaultReachfarServiceTest {
         )
 
         val device = Device(
-            name = "Reachfar",
+            id = "Reachfar",
             deviceType = deviceType
         )
 
@@ -53,7 +53,7 @@ class DefaultReachfarServiceTest {
 
     @Test
     fun testHandleNewMsgWithCoordinates() {
-        val coordinates = Coordinates(
+        val coordinates = Coordinate(
             latitude = 12.57613.toBigDecimal(),
             longitude = 123.761315.toBigDecimal()
         )
@@ -81,7 +81,7 @@ class DefaultReachfarServiceTest {
         )
 
         val device = Device(
-                name = "Reachfar",
+                id = "Reachfar",
                 deviceType = deviceType
         )
 
@@ -97,8 +97,8 @@ class DefaultReachfarServiceTest {
         Mockito.verify(deviceService, Mockito.times(1)).saveCoordinates(eq(device), argThat(matches(coordinates)), any())
     }
 
-    private fun matches(coordinates: Coordinates) =
-            ArgumentMatcher<Coordinates> { argument ->
+    private fun matches(coordinates: Coordinate) =
+            ArgumentMatcher<Coordinate> { argument ->
                 println("argument: $argument")
                 println("coordinate $coordinates")
                 (coordinates.latitude.max(argument.latitude) - coordinates.latitude.min(argument.latitude) < 1.toBigDecimal()

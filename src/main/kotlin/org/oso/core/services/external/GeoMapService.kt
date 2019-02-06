@@ -1,6 +1,6 @@
 package org.oso.core.services.external
 
-import org.oso.core.entities.Coordinates
+import org.oso.core.entities.Coordinate
 
 /**
  * Represents a service which uses a geographical map api.
@@ -12,5 +12,5 @@ interface GeoMapService {
      *
      * @param coordinates The latitude and longitude which are going to be resolved
      */
-    fun resolve(coordinates: Coordinates): String?
+    fun resolve(coordinates: Coordinate): String?
 }

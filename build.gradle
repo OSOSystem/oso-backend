@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        kotlinVersion = "1.3.0"
-        springBootVersion = "2.1.0.RELEASE"
+        kotlinVersion = "1.3.11"
+        springBootVersion = "2.1.1.RELEASE"
         dokkaVersion = "0.9.17"
-        springIntegrationVersion = "5.1.0.RELEASE"
+        springIntegrationVersion = "5.1.1.RELEASE"
         asciiDoctorVersion = "1.5.3"
     }
     repositories {
@@ -18,6 +18,10 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokkaVersion}"
         classpath "org.asciidoctor:asciidoctor-gradle-plugin:${asciiDoctorVersion}"
     }
+}
+
+ext {
+    keycloakVersion = "4.8.1.Final"
 }
 
 apply plugin: "kotlin"
@@ -59,13 +63,15 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-undertow"
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-mail"
     implementation "org.springframework.retry:spring-retry"
     implementation "org.springframework.integration:spring-integration-core"
     implementation "org.springframework.integration:spring-integration-ip"
     implementation "de.codecentric:spring-boot-admin-client:2.0.3"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
     implementation "org.postgresql:postgresql"
-    implementation "org.keycloak:keycloak-spring-boot-starter:4.5.0.Final"
+    implementation "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
+    implementation "org.keycloak:keycloak-spring-security-adapter:$keycloakVersion"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
@@ -76,6 +82,10 @@ dependencies {
     testRuntime "com.h2database:h2:1.4.197"
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 compileKotlin {
@@ -103,6 +113,6 @@ task bootRunDev(dependsOn:bootRun) {
 
 asciidoctor {
     sourceDir 'src/main/asciidoc'
-    attributes \
-      'snippets': file('target/snippets')
+    attributes 'snippets': file('target/snippets'),
+                'encoding': 'UTF-8'
 }

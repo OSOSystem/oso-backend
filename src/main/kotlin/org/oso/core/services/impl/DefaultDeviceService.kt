@@ -1,8 +1,8 @@
 package org.oso.core.services.impl
 
-import org.oso.core.entities.Coordinates
+import org.oso.core.entities.Coordinate
 import org.oso.core.entities.Device
-import org.oso.core.entities.DeviceCoordinates
+import org.oso.core.entities.DeviceCoordinate
 import org.oso.core.entities.DeviceType
 import org.oso.core.repositories.DeviceCoordinatesRepository
 import org.oso.core.repositories.DeviceRepository
@@ -25,23 +25,22 @@ class DefaultDeviceService
     }
 
     override fun createIfMissing(name: String, description: String, deviceType: DeviceType?): Device {
-        var dev = deviceRepository.findByName(name)
-        if (dev == null) {
-            dev = Device(
-                name = name,
-                description = description,
+        var device = deviceRepository.findById(name).orElse(null)
+        if (device == null) {
+            device = Device(
                 deviceType = deviceType
             )
-            deviceRepository.save(dev)
+            device.id = name
+            deviceRepository.save(device)
         }
-        return dev
+        return device
     }
 
     override fun findTypeByName(name: String): DeviceType? =
         deviceTypeRepository.findByName(name)
 
-    override fun saveCoordinates(device: Device, coordinates: Coordinates, time: LocalDateTime) {
-        val devCoords = DeviceCoordinates(
+    override fun saveCoordinates(device: Device, coordinates: Coordinate, time: LocalDateTime) {
+        val devCoords = DeviceCoordinate(
             device = device,
             time = time,
             coordinates = coordinates

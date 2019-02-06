@@ -3,6 +3,7 @@ package org.oso.core.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.hamcrest.Matchers
 import org.hamcrest.collection.IsCollectionWithSize
+import org.junit.Before
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers
@@ -14,6 +15,7 @@ import org.oso.core.dtos.HelpProviderPushDto
 import org.oso.core.entities.HelpProvider
 import org.oso.core.entities.HelpRequester
 import org.oso.core.services.HelpProviderService
+import org.oso.core.services.SecurityService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
@@ -36,26 +38,34 @@ class HelpProviderControllerTest {
     @MockBean
     lateinit var helpProviderService: HelpProviderService
 
+    @MockBean
+    lateinit var securityService: SecurityService
+
+    @Before
+    fun init() {
+        Mockito.`when`(securityService.getCurrentUserName()).thenReturn(userName)
+    }
+
     @Test
     fun testFindAll() {
         val helpProviders = listOf(
             HelpProvider(
+                id = "HP-A",
                 name = "A",
-                password =  "a"
+                keycloakName = "keycloakA"
             ),
             HelpProvider(
+                id = "HP-B",
                 name="B",
-                password = "b"
+                keycloakName = "keycloakB"
             ),
             HelpProvider(
+                id = "HP-C",
                 name = "C",
-                password = "c",
-                email = "email"
+                keycloakName = "keycloakC",
+                expoPushToken = "expoPush"
             )
         )
-        helpProviders[0].id = 16
-        helpProviders[1].id = 28
-        helpProviders[2].id = 128
 
         Mockito.`when`(helpProviderService.findAll()).thenReturn(helpProviders)
 
@@ -63,20 +73,14 @@ class HelpProviderControllerTest {
             .perform(MockMvcRequestBuilders.get("/${HelpProviderController.PATH_HELP_PROVIDERS}").contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(3)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(helpProviders[0].id?.toInt())))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].password", Matchers.`is`(helpProviders[0].password)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].email", Matchers.`is`(helpProviders[0].email)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].phoneNumber", Matchers.`is`(helpProviders[0].phoneNumber)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(helpProviders[0].id)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.`is`(helpProviders[0].name)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].expoPushToken", Matchers.`is`(helpProviders[0].expoPushToken)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(helpProviders[1].id?.toInt())))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].password", Matchers.`is`(helpProviders[1].password)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].email", Matchers.`is`(helpProviders[1].email)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].phoneNumber", Matchers.`is`(helpProviders[1].phoneNumber)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(helpProviders[1].id)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.`is`(helpProviders[1].name)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].expoPushToken", Matchers.`is`(helpProviders[1].expoPushToken)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.`is`(helpProviders[2].id?.toInt())))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[2].password", Matchers.`is`(helpProviders[2].password)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[2].email", Matchers.`is`(helpProviders[2].email)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[2].phoneNumber", Matchers.`is`(helpProviders[2].phoneNumber)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.`is`(helpProviders[2].id)))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[2].name", Matchers.`is`(helpProviders[2].name)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[2].expoPushToken", Matchers.`is`(helpProviders[2].expoPushToken)))
             .andDo(MockMvcRestDocumentation.document(HelpProviderController.PATH_HELP_PROVIDERS))
     }
@@ -84,25 +88,18 @@ class HelpProviderControllerTest {
     @Test
     fun testCreateHelpProvider() {
         val dto = HelpProviderPushDto(
-            name = "HelpProvider",
-            password = "password",
-            email = "email",
-            phoneNumber = "123456789",
-            expoPushToken = "expoPushToken"
+            name = "HelpProvider"
         )
         val helpProvider = HelpProvider(
+            id = "12345",
             name = dto.name,
-            password = dto.password,
-            expoPushToken = dto.expoPushToken,
-            phoneNumber = dto.phoneNumber,
-            email = dto.email
+            keycloakName = "keycloak12345"
         )
-        helpProvider.id = 12345
 
         Mockito.`when`(helpProviderService.createHelpProvider(any())).thenThrow(IllegalArgumentException())
-        Mockito.doReturn(helpProvider).`when`(helpProviderService).createHelpProvider(dto.toEntity())
+        //Mockito.doReturn(helpProvider).`when`(helpProviderService).createHelpProvider(ArgumentMatchers.any())
 
-        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
+        // TODO this test always fails as jackson does not recognize the non-nullable parameters correctly
         /*
         this.mockMvc
             .perform(
@@ -119,25 +116,22 @@ class HelpProviderControllerTest {
 
     @Test
     fun `testCreateHelpProvider throws exception on missing parameter`() {
-        val parameters = listOf(
-            "name" to "helpprovider",
-            "password" to "password"
-        )
-
-        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
-        //testFailOnMissingParameters(mockMvc, HelpProviderController.PATH_HELP_PROVIDERS, parameters)
+//        val parameters = listOf(
+//            "name" to "helpprovider",
+//            "password" to "password"
+//        )
+//
+//        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
+//        testFailOnMissingParameters(mockMvc, HelpProviderController.PATH_HELP_PROVIDERS, parameters)
     }
 
     @Test
     fun testFindById() {
         val helpProvider = HelpProvider(
+            id = "HP-myself",
             name = "myself",
-            password = "asdfghjk",
-            expoPushToken = "token",
-            phoneNumber = "753951",
-            email = "Email"
+            keycloakName = "keycloakMyself"
         )
-        helpProvider.id = 12345
 
         Mockito.`when`(helpProviderService.findById(helpProvider.id!!)).thenReturn(helpProvider)
 
@@ -146,18 +140,15 @@ class HelpProviderControllerTest {
                 .get("/${HelpProviderController.PATH_HELP_PROVIDERS}/${helpProvider.id}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.`is`(helpProvider.id?.toInt())))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.`is`(helpProvider.id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.`is`(helpProvider.name)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.password", Matchers.`is`(helpProvider.password)))
             .andExpect(MockMvcResultMatchers.jsonPath("$.expoPushToken", Matchers.`is`(helpProvider.expoPushToken)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.phoneNumber", Matchers.`is`(helpProvider.phoneNumber)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$.email", Matchers.`is`(helpProvider.email)))
             .andDo(MockMvcRestDocumentation.document(HelpProviderController.PATH_HELP_PROVIDERS + "/id"))
     }
 
     @Test
     fun `testFindById throws Exception if unknown`() {
-        Mockito.`when`(helpProviderService.findById(ArgumentMatchers.anyLong())).thenReturn(null)
+        Mockito.`when`(helpProviderService.findById(ArgumentMatchers.anyString())).thenReturn(null)
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
@@ -168,26 +159,31 @@ class HelpProviderControllerTest {
 
     @Test
     fun testFindHelpRequesters() {
-        val id = 25.toLong()
+        val id = "25"
 
         val helpRequesters = listOf(
             HelpRequester(
+                id = "4711",
                 name = "A",
-                email = "email",
-                phoneNumber = "951862",
-                password = "rstrzuio"
+                keycloakName = "keycloakA"
             ),
             HelpRequester(
+                id = "4712",
                 name = "B",
-                email = "email",
-                phoneNumber = "8946523",
-                password = "asdrtf7gz8uhio"
+                keycloakName = "keycloakB"
             )
         )
-        helpRequesters[0].id = 4711
-        helpRequesters[1].id = 4712
 
-        Mockito.`when`(helpProviderService.findHelpRequesters(id)).thenReturn(helpRequesters.toSet())
+        val helpProvider = HelpProvider(
+            id = id,
+            name = "Name",
+            keycloakName = "keycloakName"
+        )
+
+        helpProvider.helpRequesters.addAll(helpRequesters)
+
+        Mockito.`when`(helpProviderService.findById(id)).thenReturn(helpProvider)
+        Mockito.`when`(helpProviderService.findHelpRequesters(id)).thenReturn(helpProvider.helpRequesters)
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
@@ -195,37 +191,30 @@ class HelpProviderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(2)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(helpRequesters[0].id?.toInt())))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(helpRequesters[0].id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.`is`(helpRequesters[0].name)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].email", Matchers.`is`(helpRequesters[0].email)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].phoneNumber", Matchers.`is`(helpRequesters[0].phoneNumber)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].password", Matchers.`is`(helpRequesters[0].password)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(helpRequesters[1].id?.toInt())))
+            .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.equalTo(helpRequesters[1].id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.`is`(helpRequesters[1].name)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].email", Matchers.`is`(helpRequesters[1].email)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].phoneNumber", Matchers.`is`(helpRequesters[1].phoneNumber)))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[1].password", Matchers.`is`(helpRequesters[1].password)))
             .andDo(MockMvcRestDocumentation.document(HelpProviderController.PATH_HELP_PROVIDERS + "/id/${HelpProviderController.PATH_HELP_PROVIDERS}"))
     }
 
     @Test
-    fun `testFindHelpRequesters is empty on unknown help provider`() {
-        Mockito.`when`(helpProviderService.findHelpRequesters(ArgumentMatchers.anyLong())).thenReturn(null)
+    fun `testFindHelpRequesters throws exception on unknown help provider`() {
+        Mockito.`when`(helpProviderService.findHelpRequesters(ArgumentMatchers.anyString())).thenReturn(null)
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
                 .get("/${HelpProviderController.PATH_HELP_PROVIDERS}/25/${HelpProviderController.PATH_HELP_REQUESTERS}")
                 .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(0)))
+            .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
     @Test
     fun testAcceptEmergency() {
         val dto = EmergencyAcceptedDto(
-            emergencyId = 25,
-            helpProviderId = 38,
-            helpRequesterId = 46
+            emergencyId = "25",
+            helpProviderId = "38",
+            helpRequesterId = "46"
         )
 
         Mockito.doNothing().`when`(helpProviderService).acceptEmergency(dto.emergencyId, dto.helpProviderId)
@@ -238,7 +227,7 @@ class HelpProviderControllerTest {
                     .characterEncoding(StandardCharsets.UTF_8.name())
                     .content(ObjectMapper().writeValueAsString(dto)))
 
-            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.status().isAccepted)
             .andDo(MockMvcRestDocumentation.document("${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}"))
 
         Mockito.verify(helpProviderService, Mockito.times(1)).acceptEmergency(dto.emergencyId, dto.helpProviderId)
@@ -246,13 +235,17 @@ class HelpProviderControllerTest {
 
     @Test
     fun `testAcceptEmergency throws exception on missing parameter`() {
-        val parameters = listOf(
-            "emergencyId" to "25",
-            "helpProviderId" to "38",
-            "helpRequesterId" to "46"
-        )
+//        val parameters = listOf(
+//            "emergencyId" to "25",
+//            "helpProviderId" to "38",
+//            "helpRequesterId" to "46"
+//        )
+//
+//        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
+//        testFailOnMissingParameters(mockMvc, "${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}", parameters)
+    }
 
-        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
-        //testFailOnMissingParameters(mockMvc, "${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}", parameters)
+    companion object {
+        private const val userName = "User"
     }
 }

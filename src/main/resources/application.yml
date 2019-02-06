@@ -29,12 +29,21 @@ expo:
 
 keycloak:
   # performs a redirect to this url
-  auth-server-url: https://localhost/auth
+  auth-server-url: http://localhost:8080/auth
   realm: osorealm
   resource: login-app
+  use-resource-role-mappings: true
   ssl-required: external
-  public-client: true
+  bearer-only: true
+  credentials:
+    secret: f10e2064-72cf-43dd-923c-2c029b12fc7e
   security-constraints:
-    - authRoles: user
+    - authRoles:
+        - user
       securityCollections:
-        - patterns: /
+        - name: all
+          patterns:
+            - /*
+
+email:
+  from: contact@ososystem.de

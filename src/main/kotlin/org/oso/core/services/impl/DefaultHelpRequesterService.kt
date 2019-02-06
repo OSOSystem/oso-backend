@@ -13,9 +13,9 @@ class DefaultHelpRequesterService
     @Autowired
     constructor(private val helpRequesterRepository: HelpRequesterRepository) : HelpRequesterService {
 
-    override fun findById(id: Long): HelpRequester? = helpRequesterRepository.findById(id).orElse(null)
+    override fun findById(id: String): HelpRequester? = helpRequesterRepository.findById(id).orElse(null)
 
-    override fun findHelpProviders(helpRequesterId: Long): Set<HelpProvider>? =
+    override fun findHelpProviders(helpRequesterId: String): Set<HelpProvider>? =
         findById(helpRequesterId)
             ?.helpProviders
             ?: setOf()

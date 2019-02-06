@@ -1,7 +1,9 @@
 package org.oso.filters
 
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
 import javax.servlet.*
 import javax.servlet.http.HttpServletRequest
@@ -15,14 +17,16 @@ class HttpRequestLoggingFilter : Filter {
         if (request is HttpServletRequest) {
             val ipAddress = extractIp(request)
             val httpVerb = request.method
-            val sendsPayload = httpVerb == "POST" || httpVerb == "PUT"
 
-            if (sendsPayload) {
-                val payload = request.reader.readText()
-                LOGGER.info("Http {} Request {} {}\n{}", httpVerb, request.servletPath, ipAddress, payload)
-            } else {
-                LOGGER.info("Http {} Request {} {}", httpVerb, request.servletPath, ipAddress)
-            }
+            LOGGER.info("Http {} Request {} {}", httpVerb, request.servletPath, ipAddress)
+        }
+
+        if (SecurityContextHolder.getContext().authentication is KeycloakAuthenticationToken) {
+           with(SecurityContextHolder.getContext().authentication as KeycloakAuthenticationToken) {
+               LOGGER.info("Request done by keycloak user ${this.name}")
+           }
+        } else {
+            LOGGER.info("Request done by anonymous user")
         }
 
         chain?.doFilter(request, response)

@@ -1,6 +1,7 @@
 package org.oso
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
@@ -14,6 +15,8 @@ import org.springframework.integration.ip.tcp.TcpReceivingChannelAdapter
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory
 import org.springframework.integration.ip.tcp.connection.TcpNetServerConnectionFactory
 import org.springframework.jdbc.datasource.DriverManagerDataSource
+import org.springframework.mail.javamail.JavaMailSender
+import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.springframework.messaging.MessageChannel
 import org.springframework.retry.backoff.FixedBackOffPolicy
 import org.springframework.retry.policy.SimpleRetryPolicy
@@ -33,7 +36,7 @@ class AppConfig (
     val context: ApplicationContext
 ) {
     /**
-     * Provide in memory database for the test runtime when testing the full application.
+     * Provides an in-memory database for the testing environment when starting integration tests.
      */
     @Bean
     @Profile("test")
@@ -44,6 +47,17 @@ class AppConfig (
         dataSource.username = ""
         dataSource.password = ""
         return dataSource
+    }
+
+    /**
+     * This bean purpose is solely for the testing environment.
+     * The testing environment can't create the bean because of the missing configuration keys.
+     * In the production environment they are defined in the Dockerfile.
+     */
+    @Bean
+    @Profile("test")
+    fun javaMailSender(): JavaMailSender {
+        return JavaMailSenderImpl()
     }
 
     @Bean
@@ -61,7 +75,7 @@ class AppConfig (
 
     @Bean
     fun objectMapper(): ObjectMapper {
-        return ObjectMapper()
+        return ObjectMapper().registerKotlinModule()
     }
 
     @Bean

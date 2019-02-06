@@ -8,6 +8,11 @@ services:
     ports:
       - "8081:8081"
       - "9999:9999"
+    environment:
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
 
   keycloak:
     environment:

@@ -5,7 +5,7 @@ import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
-data class Coordinates (
+data class Coordinate (
     @Column(columnDefinition = "DECIMAL(9, 7)")
     val latitude: BigDecimal,
     @Column(columnDefinition = "DECIMAL(10, 7)")
