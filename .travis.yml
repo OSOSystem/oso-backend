@@ -8,6 +8,15 @@ script:
 
 jdk: openjdk8
 
+addons:
+  sonarcloud:
+    organization: "ososystem" 
+    token:
+      secure: $SONAR_TOKEN 
+
+script:
+  - sonar-scanner
+
 services:
   - docker
 
