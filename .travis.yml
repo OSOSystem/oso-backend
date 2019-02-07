@@ -2,9 +2,6 @@ sudo: required
 
 language:
 install: true
-script:
-  - ./gradlew check --stacktrace
-  - ./gradlew bootJar
 
 jdk: openjdk8
 
@@ -18,6 +15,8 @@ before_script:
   - "curl -H 'Cache-Control: no-cache' https://raw.githubusercontent.com/fossas/fossa-cli/master/install.sh | sudo bash"
 
 script:
+  - ./gradlew check --stacktrace
+  - ./gradlew bootJar
   - fossa init
   - fossa analyze
   - sonar-scanner
