@@ -3,9 +3,7 @@ package org.oso.core.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.ArgumentMatcher
 import org.mockito.ArgumentMatchers
-import org.mockito.Matchers
 import org.mockito.Mockito
 import org.oso.any
 import org.oso.core.controllers.EmergencyController
