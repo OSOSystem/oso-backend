@@ -1,5 +1,10 @@
 # <img src="https://user-images.githubusercontent.com/19901781/46945965-8cb21700-d076-11e8-8c82-95af6b7388b3.png" width="80" height="80"> OSO Backend
-[![Build Status](https://travis-ci.com/OSOSystem/oso-backend.svg?branch=develop)](https://travis-ci.com/OSOSystem/oso-backend)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=OSOSystem_oso-backend&metric=alert_status)](https://sonarcloud.io/dashboard?id=OSOSystem_oso-backend)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=OSOSystem_oso-backend&metric=security_rating)](https://sonarcloud.io/dashboard?id=OSOSystem_oso-backend)
+[![CodeFactor](https://www.codefactor.io/repository/github/ososystem/oso-backend/badge)](https://www.codefactor.io/repository/github/ososystem/oso-backend)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0942d3cc78c14274830f086ebda92274)](https://app.codacy.com/app/OSOSystem/oso-backend?utm_source=github.com&utm_medium=referral&utm_content=OSOSystem/oso-backend&utm_campaign=Badge_Grade_Dashboard)
+[![Build Status](https://travis-ci.com/pwilken/OpenSourceTrackingSystem.svg?token=YUzfzW96QR4BesPEUUqv&branch=master)](https://travis-ci.com/pwilken/OpenSourceTrackingSystem)
+[![FOSSA Status](https://app.fossa.io/api/projects/custom%2B8559%2Fgithub.com%2FOSOSystem%2Foso-backend.svg?type=shield)](https://app.fossa.io/projects/custom%2B8559%2Fgithub.com%2FOSOSystem%2Foso-backend?ref=badge_shield)
 
 Monolithic backend written in Kotlin for the OSO Project. 
 It uses Gradle as dependency management and build tool.
