@@ -9,7 +9,6 @@ import org.oso.core.entities.Coordinate
 interface GeoMapService {
     /**
      * Resolves an address wit the given [coordinates].
-     *
      * @param coordinates The latitude and longitude which are going to be resolved
      */
     fun resolve(coordinates: Coordinate): String?

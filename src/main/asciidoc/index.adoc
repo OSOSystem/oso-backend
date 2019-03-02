@@ -8,7 +8,7 @@ include::{snippets}/devices/http-request.adoc[]
 .response
 include::{snippets}/devices/http-response.adoc[]
 
-== emiting an emergency
+== emitting an emergency
 
 .post
 include::{snippets}/emergency/request-body.adoc[]

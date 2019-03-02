@@ -15,7 +15,6 @@ class DeviceController
     @Autowired constructor(private val deviceService: DeviceService) {
 
     @GetMapping
-    @CrossOrigin(origins = ["http://localhost:3000"])
     @ResponseBody
     fun findAll(): List<Device> {
         return deviceService.findAll()

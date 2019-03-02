@@ -21,19 +21,9 @@ class OpenStreetMapsService
         private val objectMapper: ObjectMapper)
     : GeoMapService {
 
-    /**
-     * Provides an api for searching OpenStreetMap.
-     *
-     * Restrictions:
-     * - Only 1 request per second is allowed
-     * - Valid HTTP Referer or User-Agent should be included in the HTTP header
-     */
-    private val NOMINATIM = "https://nominatim.openstreetmap.org"
-
-    // TODO consider the importance value in the json v2 format
     override fun resolve(coordinates: Coordinate): String? {
         val headers = HttpHeaders()
-        headers.add("Referer", "https://app.ososystem.de")
+        headers.add("Referer", "https://ososystem.de")
         val entity = HttpEntity<String>(headers)
 
         val body =
@@ -53,8 +43,20 @@ class OpenStreetMapsService
                 return@execute response.body
             }
 
-        val json = objectMapper.readTree(body.orEmpty())
+        val root = objectMapper.readTree(body.orEmpty())
+        val json = if (root.isArray) root[0] else root
 
         return if (json.has("display_name")) json.get("display_name").asText() else null
+    }
+
+    companion object {
+        /**
+         * Provides an api for searching OpenStreetMap.
+         *
+         * Restrictions:
+         * - Only 1 request per second is allowed
+         * - Valid HTTP Referer or User-Agent should be included in the HTTP header
+         */
+        private val NOMINATIM = "https://nominatim.openstreetmap.org"
     }
 }
