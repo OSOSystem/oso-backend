@@ -6,6 +6,7 @@ services:
 
   ososystem:
     ports:
+      - "8000:8000"
       - "8081:8081"
       - "9999:9999"
     environment:

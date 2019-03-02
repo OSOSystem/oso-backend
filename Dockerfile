@@ -10,7 +10,7 @@ ENV MAIL_PASSWORD ""
 ENV SMTP_HOST ""
 ENV SMTP_PORT ""
 
-EXPOSE 8081 9999
+EXPOSE 8000 8081 9999
 
 ENTRYPOINT ["java", \
 "-Dspring.datasource.url=${DB_URL}", \
@@ -20,5 +20,6 @@ ENTRYPOINT ["java", \
 "-Dspring.mail.port=${SMTP_PORT}", \
 "-Dspring.mail.username=${MAIL_USER}", \
 "-Dspring.mail.password=${MAIL_PASSWORD}", \
+"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000", \
 "-jar", \
 "oso-backend.jar"]
