@@ -33,6 +33,8 @@ https://docs.docker.com/install/
 To install Docker Compose visit<br>
 https://docs.docker.com/compose/install/
 
+---
+
 ### Building
 Before an docker image can be assembled a jar has to exist.
 
@@ -79,7 +81,7 @@ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
 > **Note**: The ``docker-compose.dev.yml`` is written as last because it extends the base docker-compose file.
 
-## Debugging
+### Debugging
 A socket is listening on port ``8000`` for attaching a remote debugger to it.
 
 When using IntelliJ for instance, you can just simply add a new remote configuration with the following settings
@@ -100,7 +102,7 @@ We provide another [Postgres Dockerfile](postgres/Dockerfile) which uses the ``p
 [init.sh](postgres/init.sh) on it. The script makes sure to create the needed users and databases.
 
 ## Keycloak
-We use Keycloak for user authentication and authorization. 
+We use Keycloak for user authentication and authorization.<br>
 There is a [oso-realm.json](oso-realm.json) in this repository which provides a basic configuration.
 
 When the keycloak instance is started the admin interface is accessible at ``http://localhost:8080/auth/admin``<br>
@@ -109,7 +111,7 @@ The default credentials are<br>
 **user**: developer<br>
 **password**: ososystem
 
-This section will be further expanded in the future as we are still trying some things out with Keycloak. 
+This section will be further expanded in the future as we are still trying some things out with Keycloak.<br>
 It is a really complex and powerful FOSS.
 
 # Contribute to the project
