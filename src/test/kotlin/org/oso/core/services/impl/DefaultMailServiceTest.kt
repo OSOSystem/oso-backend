@@ -43,10 +43,9 @@ class DefaultMailServiceTest {
             .doThrow(MailSendException("Failed to deliver mail"))
             .`when`(javaMailSender).send(any<SimpleMailMessage>())
 
-        defaultMailService.send(from, participants, subject, text).let {
-            Assert.assertThat(it, `is`(participants.drop(1)))
-        }
+        val failed = defaultMailService.send(from, participants, subject, text)
+        Assert.assertThat(failed, `is`(participants.drop(1)))
 
-        Mockito.verify(javaMailSender, Mockito.times(3))
+        Mockito.verify(javaMailSender, Mockito.times(3)).send(any<SimpleMailMessage>())
     }
 }

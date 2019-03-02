@@ -9,10 +9,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    volumes:
-      - type: bind
-        source: ./pgdata
-        target: /var/lib/postgresql/data
 
   ososystem:
     build: .
@@ -22,7 +18,7 @@ services:
       - backend
 
   keycloak:
-    image: jboss/keycloak:4.6.0.Final
+    image: jboss/keycloak:4.8.3.Final
     depends_on:
       - postgres
     networks:

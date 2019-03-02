@@ -42,9 +42,6 @@ class DefaultHelpProviderServiceTest {
 
     @Test
     fun testAcceptEmergency() {
-        // new action added for the emergency
-        // pushnotification to provider sent
-
         val helpRequester = HelpRequester(
             id = "456",
             name = "Requester",
@@ -99,9 +96,6 @@ class DefaultHelpProviderServiceTest {
 
     @Test
     fun `testAcceptEmergency without notification`() {
-        // new action added for the emergency
-        // pushnotification to provider sent
-
         val helpRequester = HelpRequester(
                 id = "123",
                 name = "Requester",
