@@ -1,0 +1,49 @@
+server:
+  port: 8081
+  use-forward-headers: true
+
+tcp:
+  server:
+    port: 9999
+
+spring:
+  jpa:
+    # TODO disable this in production build
+    generate-ddl: true
+
+  # Pretty-print JSON responses
+  jackson:
+    serialization:
+      indent_output: true
+
+logging:
+  level:
+    # The logger of this class will only output on error level
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ERROR
+
+# The expo notification service allows to send push notifications to mobile devices
+expo:
+  notifications:
+    api:
+     url: "https://exp.host/--/api/v2/push/send"
+
+keycloak:
+  # performs a redirect to this url
+  auth-server-url: http://localhost:8080/auth
+  realm: osorealm
+  resource: login-app
+  use-resource-role-mappings: true
+  ssl-required: external
+  bearer-only: true
+  credentials:
+    secret: f10e2064-72cf-43dd-923c-2c029b12fc7e
+  security-constraints:
+    - authRoles:
+        - user
+      securityCollections:
+        - name: all
+          patterns:
+            - /*
+
+email:
+  from: contact@ososystem.de
