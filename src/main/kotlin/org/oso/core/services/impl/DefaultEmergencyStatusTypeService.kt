@@ -5,7 +5,7 @@ import org.oso.core.services.EmergencyStatusTypeService
 import org.springframework.stereotype.Service
 
 @Service
-class DefaultEmergencyActionTypeService(
+class DefaultEmergencyStatusTypeService(
     val emergencyStatusTypeRepository: EmergencyStatusTypeRepository
 ) : EmergencyStatusTypeService {
     override fun findByName(name: String) =

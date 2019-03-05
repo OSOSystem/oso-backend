@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class DefaultEmergencyStatusService(
     val emergencyStatusRepository: EmergencyStatusRepository,
-    val emergencyStatusTypeService: DefaultEmergencyActionTypeService
+    val emergencyStatusTypeService: DefaultEmergencyStatusTypeService
 ) : EmergencyStatusService {
 
     override fun addAction(emergency: Emergency, helpProvider: HelpProvider, action: String) {
