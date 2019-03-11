@@ -1,0 +1,25 @@
+[source,options="nowrap"]
+----
+[ {
+  "id" : "Flic1",
+  "helpRequester" : null,
+  "deviceType" : {
+    "name" : "Flic-Button"
+  },
+  "deviceCoordinates" : [ ]
+}, {
+  "id" : "Reachfar1234567890",
+  "helpRequester" : null,
+  "deviceType" : {
+    "name" : "Rechfar Tracker RV-V18"
+  },
+  "deviceCoordinates" : [ ]
+}, {
+  "id" : "Nano4711",
+  "helpRequester" : null,
+  "deviceType" : {
+    "name" : "Nano Tracker"
+  },
+  "deviceCoordinates" : [ ]
+} ]
+----

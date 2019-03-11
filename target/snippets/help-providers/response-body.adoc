@@ -1,0 +1,16 @@
+[source,options="nowrap"]
+----
+[ {
+  "id" : "HP-A",
+  "name" : "A",
+  "expoPushToken" : null
+}, {
+  "id" : "HP-B",
+  "name" : "B",
+  "expoPushToken" : null
+}, {
+  "id" : "HP-C",
+  "name" : "C",
+  "expoPushToken" : "expoPush"
+} ]
+----

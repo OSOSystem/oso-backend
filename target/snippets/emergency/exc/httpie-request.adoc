@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"helprequester":"25","emergencyPriority":"LOW","coordinates":null}' | http POST 'http://localhost:8080/emergency/emit' \
+    'Content-Type:application/json;charset=UTF-8'
+----

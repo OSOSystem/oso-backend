@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ http GET 'http://localhost:8080/help-requesters/25/help-providers' \
+    'Content-Type:application/json'
+----

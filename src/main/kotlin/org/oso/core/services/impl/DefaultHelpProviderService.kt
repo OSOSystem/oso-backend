@@ -1,10 +1,10 @@
 package org.oso.core.services.impl
 
-import org.oso.core.entities.EmergencyActionType
+import org.oso.core.entities.EmergencyStatusType
 import org.oso.core.entities.HelpProvider
 import org.oso.core.entities.HelpRequester
 import org.oso.core.repositories.HelpProviderRepository
-import org.oso.core.services.EmergencyActionService
+import org.oso.core.services.EmergencyStatusService
 import org.oso.core.services.EmergencyService
 import org.oso.core.services.HelpProviderService
 import org.oso.core.services.external.NotificationService
@@ -18,7 +18,7 @@ class DefaultHelpProviderService
     @Autowired
     constructor(
         private val notificationService: NotificationService,
-        private val emergencyActionService: EmergencyActionService,
+        private val emergencyStatusService: EmergencyStatusService,
         private val helpProviderRepository: HelpProviderRepository,
         private val emergencyService: EmergencyService
     ) : HelpProviderService {
@@ -61,7 +61,7 @@ class DefaultHelpProviderService
             return
         }
 
-        emergencyActionService.addAction(emergency, helpProvider, EmergencyActionType.TYPE_ACCEPT)
+        emergencyStatusService.addStatus(emergency, helpProvider, EmergencyStatusType.TYPE_ACCEPTED)
 
         if (!emergency.active) {
             LOGGER.info("emergency<$emergencyId> is already resolved")

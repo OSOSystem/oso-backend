@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/help-providers/25/help-requesters' -i -X GET \
+    -H 'Content-Type: application/json'
+----

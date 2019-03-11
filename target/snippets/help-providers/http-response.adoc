@@ -1,0 +1,20 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Length: 209
+Content-Type: application/json;charset=UTF-8
+
+[ {
+  "id" : "HP-A",
+  "name" : "A",
+  "expoPushToken" : null
+}, {
+  "id" : "HP-B",
+  "name" : "B",
+  "expoPushToken" : null
+}, {
+  "id" : "HP-C",
+  "name" : "C",
+  "expoPushToken" : "expoPush"
+} ]
+----

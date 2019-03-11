@@ -1,0 +1,9 @@
+[source,http,options="nowrap"]
+----
+POST /emergency/emit HTTP/1.1
+Content-Type: application/json;charset=UTF-8
+Content-Length: 67
+Host: localhost:8080
+
+{"helprequester":"25","emergencyPriority":"LOW","coordinates":null}
+----

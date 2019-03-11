@@ -9,7 +9,7 @@ import org.oso.any
 import org.oso.core.controllers.EmergencyController
 import org.oso.core.dtos.EmergencyDto
 import org.oso.core.entities.Emergency
-import org.oso.core.entities.EmergencyType
+import org.oso.core.entities.EmergencyPriority
 import org.oso.core.entities.HelpRequester
 import org.oso.core.services.EmergencyService
 import org.oso.core.services.HelpRequesterService
@@ -52,12 +52,12 @@ class EmergencyControllerTest {
         val emergency = Emergency(
             "4711",
             helpRequester,
-            EmergencyType.LOW
+            EmergencyPriority.LOW
         )
 
         val emergencyDto = EmergencyDto(
             helpRequester.id!!,
-            emergency.emergencyType
+            emergency.emergencyPriority
         )
 
         Mockito.doNothing().`when`(emergencyService).emit(any())
@@ -83,7 +83,7 @@ class EmergencyControllerTest {
     fun `testEmit Excpetion on unknown helpRequester`() {
         val emergencyDto = EmergencyDto(
             "25",
-            EmergencyType.LOW
+            EmergencyPriority.LOW
         )
 
         Mockito.`when`(helpRequesterService.findById(ArgumentMatchers.anyString())).thenThrow(IllegalArgumentException())
@@ -105,7 +105,7 @@ class EmergencyControllerTest {
 
 //        val parameters = listOf(
 //            "helprequester" to "25",
-//            "emergencyType" to "LOW"
+//            "emergencyPriority" to "LOW"
 //        )
 //
 //        // TODO test fails if helprequester is not given, as the helprequester-id will currently be defaulted to 0 which leads to HTTP 404 instead of 400

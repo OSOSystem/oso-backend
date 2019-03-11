@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"helprequester":"25","emergencyPriority":"LOW","coordinates":null}
+----

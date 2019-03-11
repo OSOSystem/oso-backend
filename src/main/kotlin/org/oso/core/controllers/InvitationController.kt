@@ -45,7 +45,7 @@ class InvitationController
 
     fun url(protocol: String, host: String, port: Int): URL = URL(protocol, host, port, "")
 
-    @GetMapping(PATH_ACCEPT)
+    @GetMapping(PATH_ACCEPTED)
     fun acceptInvitation(@RequestParam token: String): String {
         val verificationToken = securityService.getVerificationToken(token)
 
@@ -62,6 +62,6 @@ class InvitationController
     companion object {
         const val PATH_INVITATION = "invitation"
         const val PATH_REQUEST = "request"
-        const val PATH_ACCEPT = "accept"
+        const val PATH_ACCEPTED = "accepted"
     }
 }

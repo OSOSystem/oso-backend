@@ -1,0 +1,12 @@
+[source,options="nowrap"]
+----
+[ {
+  "id" : "88",
+  "name" : "A",
+  "expoPushToken" : "expo"
+}, {
+  "id" : "1268",
+  "name" : "B",
+  "expoPushToken" : null
+} ]
+----

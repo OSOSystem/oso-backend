@@ -1,0 +1,10 @@
+[source,options="nowrap"]
+----
+[ {
+  "id" : "4711",
+  "name" : "A"
+}, {
+  "id" : "4712",
+  "name" : "B"
+} ]
+----
