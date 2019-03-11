@@ -67,7 +67,7 @@ class InvitationControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/${InvitationController.PATH_INVITATION}/${InvitationController.PATH_ACCEPT}?token=test123"))
+                        .get("/${InvitationController.PATH_INVITATION}/${InvitationController.PATH_ACCEPTED}?token=test123"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("successful")))
 
@@ -87,7 +87,7 @@ class InvitationControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/${InvitationController.PATH_INVITATION}/${InvitationController.PATH_ACCEPT}?token=test123"))
+                        .get("/${InvitationController.PATH_INVITATION}/${InvitationController.PATH_ACCEPTED}?token=test123"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("expired")))
 

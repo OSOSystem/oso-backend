@@ -30,7 +30,7 @@ class EmergencyController
 
         val emergency = Emergency(
             helpRequester = helpRequester,
-            emergencyType = emergencyDto.emergencyType,
+            emergencyPriority = emergencyDto.emergencyPriority,
             coordinates = emergencyDto.coordinates
         )
 

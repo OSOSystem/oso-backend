@@ -1,0 +1,8 @@
+[source,options="nowrap"]
+----
+{
+  "helprequester" : "UUID-4711-0815",
+  "emergencyPriority" : "LOW",
+  "coordinates" : null
+}
+----

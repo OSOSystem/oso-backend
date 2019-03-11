@@ -1,0 +1,10 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/emergency/emit' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{
+  "helprequester" : "UUID-4711-0815",
+  "emergencyPriority" : "LOW",
+  "coordinates" : null
+}'
+----

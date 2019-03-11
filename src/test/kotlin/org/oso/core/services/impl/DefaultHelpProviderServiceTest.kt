@@ -7,11 +7,11 @@ import org.mockito.*
 import org.oso.any
 import org.oso.core.dtos.PushNotification
 import org.oso.core.entities.Emergency
-import org.oso.core.entities.EmergencyActionType
+import org.oso.core.entities.EmergencyStatusType
 import org.oso.core.entities.HelpProvider
 import org.oso.core.entities.HelpRequester
 import org.oso.core.repositories.HelpProviderRepository
-import org.oso.core.services.EmergencyActionService
+import org.oso.core.services.EmergencyStatusService
 import org.oso.core.services.EmergencyService
 import org.oso.core.services.external.NotificationService
 import org.springframework.test.context.junit.jupiter.SpringExtension
@@ -27,7 +27,7 @@ class DefaultHelpProviderServiceTest {
     lateinit var helpProviderRepository: HelpProviderRepository
 
     @Mock
-    lateinit var emergencyActionService: EmergencyActionService
+    lateinit var emergencyStatusService: EmergencyStatusService
 
     @Mock
     lateinit var notificationService: NotificationService
@@ -78,8 +78,8 @@ class DefaultHelpProviderServiceTest {
         Mockito.doReturn(Optional.of(helpProvider)).`when`(helpProviderRepository).findById(helpProvider.id!!)
         Mockito.`when`(emergencyService.findEmergency(ArgumentMatchers.anyString())).thenThrow(IllegalArgumentException())
         Mockito.doReturn(emergency).`when`(emergencyService).findEmergency(emergency.id!!)
-        Mockito.`when`(emergencyActionService.addAction(any(), any(), any())).thenThrow(IllegalArgumentException())
-        Mockito.doNothing().`when`(emergencyActionService).addAction(emergency, helpProvider, EmergencyActionType.TYPE_ACCEPT)
+        Mockito.`when`(emergencyStatusService.addStatus(any(), any(), any())).thenThrow(IllegalArgumentException())
+        Mockito.doNothing().`when`(emergencyStatusService).addStatus(emergency, helpProvider, EmergencyStatusType.TYPE_ACCEPTED)
         Mockito.`when`(notificationService.createEmergencyAcceptedPushNotification(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenThrow(IllegalArgumentException())
         Mockito.doReturn(notification).`when`(notificationService).createEmergencyAcceptedPushNotification(helpProvider2.expoPushToken!!, emergency.id!!, helpRequester.id!!, helpProvider.id!!)
         Mockito.`when`(notificationService.sendPushNotification(any())).thenThrow(IllegalArgumentException())
@@ -90,7 +90,7 @@ class DefaultHelpProviderServiceTest {
             helpProviderId = helpProvider.id!!
         )
 
-        Mockito.verify(emergencyActionService, Mockito.times(1)).addAction(emergency, helpProvider, EmergencyActionType.TYPE_ACCEPT)
+        Mockito.verify(emergencyStatusService, Mockito.times(1)).addStatus(emergency, helpProvider, EmergencyStatusType.TYPE_ACCEPTED)
         Mockito.verify(notificationService, Mockito.times(1)).sendPushNotification(listOf(notification))
     }
 
@@ -118,8 +118,8 @@ class DefaultHelpProviderServiceTest {
         Mockito.doReturn(Optional.of(helpProvider)).`when`(helpProviderRepository).findById(helpProvider.id!!)
         Mockito.`when`(emergencyService.findEmergency(ArgumentMatchers.anyString())).thenThrow(IllegalArgumentException())
         Mockito.doReturn(emergency).`when`(emergencyService).findEmergency(emergency.id!!)
-        Mockito.`when`(emergencyActionService.addAction(any(), any(), any())).thenThrow(IllegalArgumentException())
-        Mockito.doNothing().`when`(emergencyActionService).addAction(emergency, helpProvider, EmergencyActionType.TYPE_ACCEPT)
+        Mockito.`when`(emergencyStatusService.addStatus(any(), any(), any())).thenThrow(IllegalArgumentException())
+        Mockito.doNothing().`when`(emergencyStatusService).addStatus(emergency, helpProvider, EmergencyStatusType.TYPE_ACCEPTED)
         Mockito.`when`(notificationService.sendPushNotification(any())).thenThrow(IllegalArgumentException())
 
         helpProviderService.acceptEmergency(
@@ -127,6 +127,6 @@ class DefaultHelpProviderServiceTest {
                 helpProviderId = helpProvider.id!!
         )
 
-        Mockito.verify(emergencyActionService, Mockito.times(1)).addAction(emergency, helpProvider, EmergencyActionType.TYPE_ACCEPT)
+        Mockito.verify(emergencyStatusService, Mockito.times(1)).addStatus(emergency, helpProvider, EmergencyStatusType.TYPE_ACCEPTED)
     }
 }
