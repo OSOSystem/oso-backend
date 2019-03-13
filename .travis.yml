@@ -7,9 +7,10 @@ jdk: openjdk8
 
 env:
   global:
-    - USER=oso-system
-    - EMAIL=contact@ososystem.de
-    - FILES="build/asciidoc/html5/index.html"
+    - USER="oso-system"
+    - EMAIL="contact@ososystem.de"
+    - DOC_PATH="build/asciidoc/html5"
+    - FILE="index.html"
     - REPO="oso-api-docs"
     - GH_REPO="github.com/OSOSystem/${REPO}.git"
 
@@ -42,12 +43,12 @@ after_success:
   - ./send.sh success $WEBHOOK_URL
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   - git clone git://${GH_REPO}
-  - mv -f ${FILES} ${REPO}
+  - mv -f ${DOC_PATH}/${FILE} ${REPO}
   - cd ${REPO}
   - git remote
   - git config user.email ${EMAIL}
   - git config user.name ${USER}
-  - git add ${FILES}
+  - git add ${FILE}
   - git commit -m ${MESSAGE}
   - git push "https://${GITHUB_TOKEN}@${GH_REPO}" master > /dev/null 2>&1
 
