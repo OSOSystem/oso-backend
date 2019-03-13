@@ -48,6 +48,8 @@ after_success:
   - git remote
   - git config user.email ${EMAIL}
   - git config user.name ${USER}
+  - git config user.email
+  - git config user.name
   - git add ${FILE}
   - git commit -m "${MESSAGE}"
   - git push "https://${GITHUB_TOKEN}@${GH_REPO}" master > /dev/null 2>&1
