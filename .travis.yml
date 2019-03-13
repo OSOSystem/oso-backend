@@ -7,11 +7,11 @@ jdk: openjdk8
 
 env:
   global:
-    - USER=OSOSystem
+    - USER=oso-system
     - EMAIL=contact@ososystem.de
     - FILES="build/asciidoc/html5/index.html"
     - REPO="oso-api-docs"
-    - GH_REPO="github.com/${USER}/${REPO}.git"
+    - GH_REPO="github.com/OSOSystem/${REPO}.git"
 
 addons:
   sonarcloud:
