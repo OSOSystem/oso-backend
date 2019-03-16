@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
+import org.oso.config.Paths
 import org.oso.core.controllers.HelpRequesterController
 import org.oso.core.entities.HelpProvider
 import org.oso.core.services.HelpRequesterService
@@ -53,7 +54,7 @@ class HelpRequesterControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${HelpRequesterController.PATH_HELP_REQUESTERS}/$id/${HelpRequesterController.PATH_HELP_PROVIDERS}")
+                .get("/${Paths.HelpRequester.REQUESTERS}/$id/${Paths.HelpRequester.PROVIDERS}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(2)))
@@ -61,7 +62,7 @@ class HelpRequesterControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.`is`(helpProviders[0].name)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.`is`(helpProviders[1].id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.`is`(helpProviders[1].name)))
-            .andDo(MockMvcRestDocumentation.document("${HelpRequesterController.PATH_HELP_REQUESTERS}/id/${HelpRequesterController.PATH_HELP_PROVIDERS}"))
+            .andDo(MockMvcRestDocumentation.document("${Paths.HelpRequester.REQUESTERS}/id/${Paths.HelpRequester.PROVIDERS}"))
     }
 
     @Test
@@ -70,7 +71,7 @@ class HelpRequesterControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${HelpRequesterController.PATH_HELP_REQUESTERS}/1/${HelpRequesterController.PATH_HELP_PROVIDERS}")
+                .get("/${Paths.HelpRequester.REQUESTERS}/1/${Paths.HelpRequester.PROVIDERS}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }

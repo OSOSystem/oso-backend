@@ -1,5 +1,6 @@
 package org.oso.core.controllers
 
+import org.oso.config.Paths
 import org.oso.core.dtos.EmergencyDto
 import org.oso.core.entities.Emergency
 import org.oso.core.exceptions.HelpRequesterNotFoundException
@@ -13,15 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 
+
 @Controller
-@RequestMapping(EmergencyController.PATH_EMERGENCY)
+@RequestMapping(Paths.Emergency.ROOT)
 class EmergencyController
     @Autowired
     constructor(
         private val emergencyService: EmergencyService,
         private val helpRequesterService: HelpRequesterService) {
 
-    @PostMapping(PATH_EMIT)
+    @PostMapping(Paths.Emergency.EMIT)
     @ResponseStatus(HttpStatus.CREATED)
     fun emit(@RequestBody emergencyDto: EmergencyDto) {
 
@@ -37,8 +39,4 @@ class EmergencyController
         emergencyService.emit(emergency)
     }
 
-    companion object {
-        const val PATH_EMERGENCY = "emergency"
-        const val PATH_EMIT = "emit"
-    }
 }

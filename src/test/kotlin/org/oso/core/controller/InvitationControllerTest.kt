@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
 import org.oso.any
+import org.oso.config.Paths
 import org.oso.core.controllers.InvitationController
 import org.oso.core.entities.HelpProvider
 import org.oso.core.entities.HelpRequester
@@ -49,7 +50,7 @@ class InvitationControllerTest {
 
         mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${InvitationController.PATH_INVITATION}/${InvitationController.PATH_REQUEST}?hrId=${hr.id}&hpId=${hp.id}")
+                .get("/${Paths.Invitation.INVITATION}/${Paths.Invitation.REQUEST}?hrId=${hr.id}&hpId=${hp.id}")
         ).andExpect(MockMvcResultMatchers.status().isOk)
     }
 
@@ -67,7 +68,7 @@ class InvitationControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/${InvitationController.PATH_INVITATION}/${InvitationController.PATH_ACCEPTED}?token=test123"))
+                        .get("/${Paths.Invitation.INVITATION}/${Paths.Invitation.ACCEPTED}?token=test123"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("successful")))
 
@@ -87,7 +88,7 @@ class InvitationControllerTest {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/${InvitationController.PATH_INVITATION}/${InvitationController.PATH_ACCEPTED}?token=test123"))
+                        .get("/${Paths.Invitation.INVITATION}/${Paths.Invitation.ACCEPTED}?token=test123"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
                 .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("expired")))
 
