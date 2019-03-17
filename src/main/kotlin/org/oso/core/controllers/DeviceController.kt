@@ -1,5 +1,6 @@
 package org.oso.core.controllers
 
+import org.oso.config.Paths
 import org.oso.core.entities.Device
 import org.oso.core.services.DeviceService
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
-@RequestMapping(DeviceController.PATH_DEVICES)
+@RequestMapping(Paths.Device.DEVICES)
 class DeviceController
     @Autowired constructor(private val deviceService: DeviceService) {
 
@@ -21,6 +22,6 @@ class DeviceController
     }
 
     companion object {
-        const val PATH_DEVICES = "devices"
+
     }
 }

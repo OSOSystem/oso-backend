@@ -1,5 +1,6 @@
 package org.oso.core.controller
 
+import org.oso.config.Paths
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -66,13 +67,13 @@ class EmergencyControllerTest {
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/${EmergencyController.PATH_EMERGENCY}/${EmergencyController.PATH_EMIT}")
+                    .post("/${Paths.Emergency.ROOT}/${Paths.Emergency.EMIT}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8.name())
                     .content(objectMapper.writeValueAsString(emergencyDto)))
 
             .andExpect(MockMvcResultMatchers.status().isCreated)
-            .andDo(MockMvcRestDocumentation.document(EmergencyController.PATH_EMERGENCY))
+            .andDo(MockMvcRestDocumentation.document(Paths.Emergency.ROOT))
 
         // TODO test if the argument for emit has the correct parameters
         Mockito.verify(emergencyService, Mockito.times(1)).emit(any())
@@ -92,12 +93,12 @@ class EmergencyControllerTest {
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/${EmergencyController.PATH_EMERGENCY}/${EmergencyController.PATH_EMIT}")
+                    .post("/${Paths.Emergency.ROOT}/${Paths.Emergency.EMIT}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8.name())
                     .content(ObjectMapper().writeValueAsString(emergencyDto)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
-            .andDo(MockMvcRestDocumentation.document("${EmergencyController.PATH_EMERGENCY}/exc"))
+            .andDo(MockMvcRestDocumentation.document("${Paths.Emergency.ROOT}/exc"))
     }
 
     @Test

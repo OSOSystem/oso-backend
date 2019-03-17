@@ -1,0 +1,5 @@
+[source,bash]
+----
+$ echo '{"emergencyId":"25","helpRequesterId":"46","helpProviderId":"38"}' | http POST 'http://localhost:8080/help-providers/accepted-emergency' \
+    'Content-Type:application/json;charset=UTF-8'
+----

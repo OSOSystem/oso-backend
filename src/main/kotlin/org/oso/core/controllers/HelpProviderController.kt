@@ -1,5 +1,6 @@
 package org.oso.core.controllers
 
+import org.oso.config.Paths
 import org.oso.core.dtos.*
 import org.oso.core.entities.HelpProvider
 import org.oso.core.exceptions.HelpProviderNotFoundException
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 import java.net.URI
 
 @Controller
-@RequestMapping(HelpProviderController.PATH_HELP_PROVIDERS)
+@RequestMapping(Paths.HelpProvider.PROVIDERS)
 class HelpProviderController
     @Autowired
     constructor(private val helpProviderService: HelpProviderService,
@@ -30,7 +31,9 @@ class HelpProviderController
         return getHelpProviderOrFail(id).toDto()
     }
 
-    @GetMapping("{id}/$PATH_HELP_REQUESTERS")
+    val helpProvider = Paths.HelpProvider;
+
+    @GetMapping("{id}/${Paths.HelpProvider.REQUESTERS}")
     @ResponseBody
     fun findHelpRequesters(@PathVariable id: String): List<HelpRequesterDto> {
         val helpProvider = getHelpProviderOrFail(id)
@@ -40,12 +43,12 @@ class HelpProviderController
     @PostMapping
     fun createHelpProvider(helpProvider: HelpProviderPushDto): ResponseEntity<Unit> {
         return helpProviderService.createHelpProvider(helpProvider.toEntity()).let {
-            ResponseEntity.created(URI("$PATH_HELP_PROVIDERS/${it.id}")).build()
+            ResponseEntity.created(URI("${Paths.HelpProvider.PROVIDERS}/${it.id}")).build()
         }
     }
 
     // TODO eventually move to emergency controller
-    @PostMapping(PATH_ACCEPT_EMERGENCY)
+    @PostMapping(Paths.HelpProvider.ACCEPTED_EMERGENCY)
     fun acceptEmergency(@RequestBody emergencyAccepted: EmergencyAcceptedDto): ResponseEntity<Unit> {
         helpProviderService.acceptEmergency(
             emergencyId = emergencyAccepted.emergencyId,
@@ -63,10 +66,4 @@ class HelpProviderController
         name = name,
         keycloakName = securityService.getCurrentUserName()
     )
-
-    companion object {
-        const val PATH_HELP_PROVIDERS = "help-providers"
-        const val PATH_HELP_REQUESTERS = "help-requesters"
-        const val PATH_ACCEPT_EMERGENCY = "accept-emergency"
-    }
 }
