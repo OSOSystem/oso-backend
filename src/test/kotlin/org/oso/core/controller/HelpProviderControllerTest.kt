@@ -188,7 +188,7 @@ class HelpProviderControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${Paths.HelpProvider.PROVIDERS}/$id/${Paths.HelpProvider.PROVIDERS}")
+                .get("/${Paths.HelpProvider.PROVIDERS}/$id/${Paths.HelpProvider.REQUESTERS}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(2)))
@@ -205,7 +205,7 @@ class HelpProviderControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${Paths.HelpProvider.PROVIDERS}/25/${Paths.HelpProvider.PROVIDERS}")
+                .get("/${Paths.HelpProvider.PROVIDERS}/25/${Paths.HelpProvider.REQUESTERS}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
@@ -223,13 +223,13 @@ class HelpProviderControllerTest {
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.PROVIDERS}")
+                    .post("/${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.ACCEPTED_EMERGENCY}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8.name())
                     .content(ObjectMapper().writeValueAsString(dto)))
 
             .andExpect(MockMvcResultMatchers.status().isAccepted)
-            .andDo(MockMvcRestDocumentation.document("${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.PROVIDERS}"))
+            .andDo(MockMvcRestDocumentation.document("${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.ACCEPTED_EMERGENCY}"))
 
         Mockito.verify(helpProviderService, Mockito.times(1)).acceptEmergency(dto.emergencyId, dto.helpProviderId)
     }

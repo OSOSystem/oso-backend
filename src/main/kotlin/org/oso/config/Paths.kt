@@ -15,7 +15,7 @@ object Paths {
     object HelpProvider {
         const val PROVIDERS = "help-providers"
         const val REQUESTERS = "help-requesters"
-        const val ACCEPTED = "accepted-emergency"
+        const val ACCEPTED_EMERGENCY = "accepted-emergency"
     }
     object HelpRequester {
         const val REQUESTERS = "help-requesters"
