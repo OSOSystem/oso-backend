@@ -52,7 +52,7 @@ after_success:
   - git config user.name
   - git add ${FILE}
   - git commit -m "${MESSAGE}"
-  - git push "https://${GITHUB_TOKEN}@${GH_REPO}" master > /dev/null 2>&1
+  - git push "https://${GITHUB_TOKEN}@${GH_REPO}" master
 
 after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
