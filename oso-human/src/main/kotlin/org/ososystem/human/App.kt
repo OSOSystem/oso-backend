@@ -1,4 +1,4 @@
-package org.oso.human
+package org.ososystem.human
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

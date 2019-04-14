@@ -1,12 +1,21 @@
-package org.oso.human
+package org.ososystem.human
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+import org.ososystem.human.domain.factories.HumanFactory
+import org.ososystem.human.domain.factories.impl.HumanFactoryImpl
+import org.ososystem.human.domain.repositories.HumanRepository
+import org.ososystem.human.domain.services.EventService
+import org.ososystem.human.domain.services.HumanService
+import org.ososystem.human.domain.services.impl.EventServiceImpl
+import org.ososystem.human.domain.services.impl.HumanServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.retry.backoff.FixedBackOffPolicy
 import org.springframework.retry.policy.SimpleRetryPolicy
 import org.springframework.retry.support.RetryTemplate
@@ -18,6 +27,8 @@ import org.springframework.web.client.RestTemplate
  */
 @Configuration
 @EnableSpringConfigured
+@ComponentScan(basePackages = [ "org.ososystem.human.infrastructure" ])
+@EnableJpaRepositories(basePackages = [ "org.ososystem.human.infrastructure.repositories" ])
 class AppConfig (
     @Autowired
     val context: ApplicationContext
@@ -44,4 +55,14 @@ class AppConfig (
     fun restTemplate(): RestTemplate {
         return RestTemplate()
     }
+
+    @Bean
+    fun humanFactory(): HumanFactory = HumanFactoryImpl()
+
+    @Bean
+    fun humanService(humanRepository: HumanRepository): HumanService =
+        HumanServiceImpl(humanFactory(), humanRepository, eventService())
+
+    @Bean
+    fun eventService(): EventService = EventServiceImpl()
 }
