@@ -7,8 +7,7 @@ import de.ososystem.human.domain.exceptions.HumanAlreadyExistsException
 import de.ososystem.human.domain.exceptions.HumanNotFoundException
 import de.ososystem.human.domain.factories.HumanFactory
 import de.ososystem.human.domain.repositories.HumanRepository
-import de.ososystem.human.domain.services.EventService
-import de.ososystem.human.domain.services.HumanService
+import de.ososystem.human.domain.services.*
 
 class HumanServiceImpl(
     val humanFactory: HumanFactory,
@@ -17,14 +16,12 @@ class HumanServiceImpl(
 ): HumanService {
 
     override fun changeHuman(human: Human) {
-        val humanCheck = humanRepository.findHumanById(human.id)
-
-        humanCheck ?: throw HumanNotFoundException("Human<${human.id}> not found")
+        val humanCheck = humanRepository.findHumanById(human.id) ?: throw HumanNotFoundException("Human<${human.id}> not found")
 
         if(humanCheck != human) {
-            humanRepository.saveHuman(human)
-
-            TODO("THROW EVENT")
+            humanRepository.saveHuman(human).let {
+                eventService.fireHumanEvent(DOMAIN_HUMAN, TYPE_CHANGED, it)
+            }
         }
     }
 
@@ -37,14 +34,14 @@ class HumanServiceImpl(
                         humanFactory.createHuman(humanDto.name)
                         .fromDto(humanDto))
 
-        TODO("THROW EVENT")
+        eventService.fireHumanEvent(DOMAIN_HUMAN, TYPE_CREATED, human)
     }
 
     override fun deleteHuman(name: String) {
         humanRepository.findHumanByName(name)?.let {
             humanRepository.deleteHuman(it)
 
-            TODO("THROW EVENT")
+            eventService.fireHumanEvent(DOMAIN_HUMAN, TYPE_DELETED, it)
         }
     }
 }
