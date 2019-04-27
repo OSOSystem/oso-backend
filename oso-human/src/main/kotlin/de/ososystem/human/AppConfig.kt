@@ -1,14 +1,14 @@
-package org.ososystem.human
+package de.ososystem.human
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import org.ososystem.human.domain.factories.HumanFactory
-import org.ososystem.human.domain.factories.impl.HumanFactoryImpl
-import org.ososystem.human.domain.repositories.HumanRepository
-import org.ososystem.human.domain.services.EventService
-import org.ososystem.human.domain.services.HumanService
-import org.ososystem.human.domain.services.impl.EventServiceImpl
-import org.ososystem.human.domain.services.impl.HumanServiceImpl
+import de.ososystem.human.domain.factories.HumanFactory
+import de.ososystem.human.domain.factories.impl.HumanFactoryImpl
+import de.ososystem.human.domain.repositories.HumanRepository
+import de.ososystem.human.domain.services.EventService
+import de.ososystem.human.domain.services.HumanService
+import de.ososystem.human.domain.services.impl.EventServiceImpl
+import de.ososystem.human.domain.services.impl.HumanServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean

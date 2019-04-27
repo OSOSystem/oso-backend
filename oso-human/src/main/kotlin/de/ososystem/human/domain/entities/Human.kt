@@ -1,4 +1,4 @@
-package org.ososystem.human.domain.entities
+package de.ososystem.human.domain.entities
 
 import java.util.*
 

@@ -1,7 +1,7 @@
-package org.ososystem.human.infrastructure.repositories
+package de.ososystem.human.infrastructure.repositories
 
-import org.ososystem.human.domain.entities.Human
-import org.ososystem.human.domain.repositories.HumanRepository
+import de.ososystem.human.domain.entities.Human
+import de.ososystem.human.domain.repositories.HumanRepository
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import java.util.*

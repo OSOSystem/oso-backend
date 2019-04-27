@@ -1,14 +1,14 @@
-package org.ososystem.human.domain.services.impl
+package de.ososystem.human.domain.services.impl
 
-import org.ososystem.human.domain.dtos.HumanDto
-import org.ososystem.human.domain.dtos.fromDto
-import org.ososystem.human.domain.entities.Human
-import org.ososystem.human.domain.exceptions.HumanAlreadyExistsException
-import org.ososystem.human.domain.exceptions.HumanNotFoundException
-import org.ososystem.human.domain.factories.HumanFactory
-import org.ososystem.human.domain.repositories.HumanRepository
-import org.ososystem.human.domain.services.EventService
-import org.ososystem.human.domain.services.HumanService
+import de.ososystem.human.domain.dtos.HumanDto
+import de.ososystem.human.domain.dtos.fromDto
+import de.ososystem.human.domain.entities.Human
+import de.ososystem.human.domain.exceptions.HumanAlreadyExistsException
+import de.ososystem.human.domain.exceptions.HumanNotFoundException
+import de.ososystem.human.domain.factories.HumanFactory
+import de.ososystem.human.domain.repositories.HumanRepository
+import de.ososystem.human.domain.services.EventService
+import de.ososystem.human.domain.services.HumanService
 
 class HumanServiceImpl(
     val humanFactory: HumanFactory,

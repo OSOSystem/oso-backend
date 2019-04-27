@@ -1,6 +1,6 @@
-package org.ososystem.human.domain.repositories
+package de.ososystem.human.domain.repositories
 
-import org.ososystem.human.domain.entities.Human
+import de.ososystem.human.domain.entities.Human
 import java.util.*
 
 interface HumanRepository {

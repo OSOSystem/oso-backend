@@ -1,6 +1,6 @@
-package org.ososystem.human.domain.dtos
+package de.ososystem.human.domain.dtos
 
-import org.ososystem.human.domain.entities.Human
+import de.ososystem.human.domain.entities.Human
 
 data class HumanDto(val name: String, var keycloakName: String?) {
 }
