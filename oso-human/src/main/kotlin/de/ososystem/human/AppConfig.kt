@@ -13,12 +13,17 @@ import de.ososystem.human.domain.repositories.HumanRepository
 import de.ososystem.human.domain.services.EventService
 import de.ososystem.human.domain.services.HumanService
 import de.ososystem.human.domain.services.impl.HumanServiceImpl
+import de.ososystem.human.infrastructure.repositories.EventRepositorySpring
+import de.ososystem.human.infrastructure.repositories.HumanRepositorySpring
+import de.ososystem.human.infrastructure.repositories.impl.EventRepositoryImpl
+import de.ososystem.human.infrastructure.repositories.impl.HumanRepositoryImpl
 import de.ososystem.human.infrastructure.services.EventServiceKafka
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.FilterType
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.retry.backoff.FixedBackOffPolicy
@@ -32,8 +37,9 @@ import org.springframework.web.client.RestTemplate
  */
 @Configuration
 @EnableSpringConfigured
-@ComponentScan(basePackages = [ "org.ososystem.human.infrastructure" ])
-@EnableJpaRepositories(basePackages = [ "org.ososystem.human.infrastructure.repositories" ])
+@ComponentScan(basePackages = [ "de.ososystem.human.infrastructure" ])
+@EnableJpaRepositories(basePackages = [ "de.ososystem.human.infrastructure.repositories" ],
+    excludeFilters = [ ComponentScan.Filter(type = FilterType.REGEX, pattern = [ ".*Impl.*" ]) ])
 class AppConfig (
     @Autowired
     val context: ApplicationContext
@@ -84,8 +90,14 @@ class AppConfig (
         HumanServiceImpl(humanFactory, humanRepository, eventService)
 
     @Bean
+    fun humanRepository(humanRepositorySpring: HumanRepositorySpring): HumanRepository = HumanRepositoryImpl(humanRepositorySpring)
+
+    @Bean
     fun eventService(eventFactory: EventFactory, eventRepository: EventRepository): EventService = EventServiceKafka(eventFactory, eventRepository)
 
     @Bean
     fun eventFactory(eventRepository: EventRepository): EventFactory = EventFactoryImpl(eventRepository, humanMapper())
+
+    @Bean
+    fun eventRepository(eventRepositorySpring: EventRepositorySpring): EventRepository = EventRepositoryImpl(eventRepositorySpring)
 }
