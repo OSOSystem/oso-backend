@@ -2,7 +2,7 @@ package de.ososystem.human.domain.dtos
 
 import de.ososystem.human.domain.entities.Human
 
-data class HumanDto(val name: String, var keycloakName: String?) {
+data class HumanDto(var name: String, var keycloakName: String?) {
 }
 
 fun Human.toDto() = HumanDto(name, keycloakName)

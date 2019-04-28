@@ -5,7 +5,7 @@ import java.util.*
 import javax.persistence.Entity
 import javax.persistence.Id
 
-@Entity
+@Entity(name = "human")
 class HumanEntity(
     @Id
     val id: UUID,

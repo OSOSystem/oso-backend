@@ -23,6 +23,7 @@ apply(plugin = "org.jetbrains.kotlin.jvm")
 apply(plugin = "org.springframework.boot")
 apply(plugin = "io.spring.dependency-management")
 apply(plugin = "kotlin-spring")
+apply(plugin = "kotlin-jpa")
 
 
 plugins {
@@ -43,6 +44,7 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation("org.springframework.boot:spring-boot-starter-parent:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -53,8 +55,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-
 }
 
 tasks.withType<KotlinCompile> {

@@ -4,7 +4,7 @@ import de.ososystem.human.domain.events.*
 import java.time.ZonedDateTime
 import javax.persistence.Entity
 
-@Entity
+@Entity(name = "event")
 class DomainEventEntity(
     @javax.persistence.Id
     val id: Id,

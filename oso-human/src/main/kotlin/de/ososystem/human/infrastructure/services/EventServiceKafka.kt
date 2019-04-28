@@ -12,6 +12,7 @@ class EventServiceKafka(
     eventFactory
 ) {
     override fun fireEvent(event: HumanEvent) {
+
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
