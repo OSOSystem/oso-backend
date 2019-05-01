@@ -32,7 +32,7 @@ class HumanController(
     @PostMapping
     fun createHuman(@RequestBody humanDto: HumanDto): ResponseEntity<Human> {
         return humanService.createHuman(humanDto).let {
-            ResponseEntity.created(URI("$PATH_HUMAN/{${it.id}")).build()
+            ResponseEntity.created(URI("$PATH_HUMAN/${it.id}")).build()
         }
     }
 
