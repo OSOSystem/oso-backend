@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.FilterType
 import org.springframework.context.annotation.aspectj.EnableSpringConfigured
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.retry.backoff.FixedBackOffPolicy
 import org.springframework.retry.policy.SimpleRetryPolicy
 import org.springframework.retry.support.RetryTemplate
@@ -93,7 +94,8 @@ class AppConfig (
     fun humanRepository(humanRepositorySpring: HumanRepositorySpring): HumanRepository = HumanRepositoryImpl(humanRepositorySpring)
 
     @Bean
-    fun eventService(eventFactory: EventFactory, eventRepository: EventRepository): EventService = EventServiceKafka(eventFactory, eventRepository)
+    fun eventService(eventFactory: EventFactory, eventRepository: EventRepository, kafkaTemplate: KafkaTemplate<String, String>, objectMapper: ObjectMapper): EventService
+        = EventServiceKafka(eventFactory, eventRepository, kafkaTemplate, objectMapper)
 
     @Bean
     fun eventFactory(eventRepository: EventRepository): EventFactory = EventFactoryImpl(eventRepository, humanMapper())

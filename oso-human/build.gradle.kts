@@ -52,6 +52,9 @@ dependencies {
     implementation("org.springframework.retry:spring-retry")
     implementation("org.springframework:spring-aspects")
 
+    implementation("org.springframework.kafka:spring-kafka:2.2.5.RELEASE")
+
+
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

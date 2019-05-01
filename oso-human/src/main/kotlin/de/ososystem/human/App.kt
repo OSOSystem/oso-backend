@@ -20,5 +20,6 @@ class SecurityPermitAllConfig : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.cors().configurationSource { CorsConfiguration().applyPermitDefaultValues() }
+        http.csrf().disable()
     }
 }

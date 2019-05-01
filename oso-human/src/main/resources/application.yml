@@ -1,0 +1,31 @@
+server:
+  port: 8081
+  use-forward-headers: true
+
+spring:
+  jpa:
+    generate-ddl: false
+
+  # Pretty-print JSON responses
+  jackson:
+    serialization:
+      indent_output: true
+
+  datasource:
+    url: TODO missing
+    username: oso_human
+    password: oso
+
+logging:
+  level:
+    org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ALL
+
+kafka:
+  bootstrapAddress: TODO define
+
+  topic:
+    human:
+      name: human
+      partitions: 2
+      replications: 1
+
