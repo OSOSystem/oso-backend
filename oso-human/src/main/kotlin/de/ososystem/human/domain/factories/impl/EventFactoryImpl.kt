@@ -16,6 +16,7 @@ class EventFactoryImpl(
 ) : EventFactory {
 
     override fun createHumanEvent(domain: Domain, type: Type, human: Human): HumanEvent {
+        // TODO where to define the version number - we do not want to have them hard-coded here
         return HumanEvent(nextId(), "1.0", ZonedDateTime.now(), domain, type, human.id.toString(), humanMapper.write(human))
     }
 

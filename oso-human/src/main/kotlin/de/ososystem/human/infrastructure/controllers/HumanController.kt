@@ -26,7 +26,7 @@ class HumanController(
     @GetMapping("{id}")
     @ResponseBody
     fun get(@PathVariable id: UUID): Human {
-        return humanService.getHuman(id) ?: throw HumanNotFoundException("Human $id does not exist")
+        return humanService.getHuman(id) ?: throw HumanNotFoundExceptionHttp("Human $id does not exist")
     }
 
     @PostMapping
