@@ -49,6 +49,6 @@ class HttpRequestLoggingFilter : Filter {
     }
 
     companion object {
-        val LOGGER: Logger = LoggerFactory.getLogger(HttpRequestLoggingFilter::class.java)
+        private val LOGGER: Logger = LoggerFactory.getLogger(HttpRequestLoggingFilter::class.java)
     }
 }

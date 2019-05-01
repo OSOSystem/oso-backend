@@ -6,6 +6,7 @@ import de.ososystem.human.domain.events.Id
 import de.ososystem.human.domain.factories.EventFactory
 import de.ososystem.human.domain.repositories.EventRepository
 import de.ososystem.human.domain.services.impl.EventServiceBase
+import org.slf4j.LoggerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
 import org.springframework.util.concurrent.ListenableFutureCallback
@@ -21,6 +22,7 @@ class EventServiceKafka(
     eventFactory
 ) {
     override fun fireEvent(event: HumanEvent) {
+        LOGGER.info("firing of event<$event> requested")
         eventRepository.saveEvent(event)
 
         fireEvents()
@@ -32,7 +34,9 @@ class EventServiceKafka(
     // 1. firing of events will be retriggered ( a certain amount of times ) until it was successfull, independent of any errors, etc
     // 2. whatever triggers fireEvent will run independent of this routine
     private fun fireEvents() {
+        LOGGER.debug("checking for event to fire")
         eventRepository.findUnSentEvents().forEach { event ->
+            LOGGER.info("firing event<$event>")
             val result = kafkaTemplate.send(event.topic, event.key, event.toSendString())
 
             //event.sentDate = ZonedDateTime.now()
@@ -54,6 +58,7 @@ class EventServiceKafka(
     }
 
     private fun onSuccess(result: SendResult<String, String>?, eventId: Id) {
+        LOGGER.debug("event<$eventId> fired successfully")
         val event = eventRepository.findEventById(eventId)
         event ?: TODO("something happened to the Event in between sending and successfull sent")
         //event.sendStatus = SUCCESS
@@ -61,6 +66,7 @@ class EventServiceKafka(
     }
 
     private fun onFailure(ex: Throwable, eventId: Id) {
+        LOGGER.debug("event<$eventId> firing failed")
         val event = eventRepository.findEventById(eventId)
 
         event ?: TODO("something happened to the event in between sending and failed sent")
@@ -86,5 +92,9 @@ class EventServiceKafka(
     private fun EventRepository.findUnSentEvents(): Iterable<HumanEvent> {
         // TODO method missing currently
         return findEventWithHighestId()?.let { listOf(it) } ?: emptyList()
+    }
+
+    companion object {
+        private val LOGGER = LoggerFactory.getLogger(EventServiceKafka::class.java)
     }
 }
