@@ -61,6 +61,19 @@ dependencies {
     implementation(fileTree(file("libs")))
 
     runtime(fileTree(file("libs")))
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine")
+    testRuntime("org.junit.vintage:junit-vintage-engine")
+    testRuntime("com.h2database:h2:1.4.197")
+}
+
+tasks.withType<Test> {
+    // Use the built-in JUnit support of Gradle.
+    useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile> {
