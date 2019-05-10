@@ -6,9 +6,14 @@ import de.ososystem.human.domain.events.Id
 import de.ososystem.human.domain.factories.EventFactory
 import de.ososystem.human.domain.repositories.EventRepository
 import de.ososystem.human.domain.services.impl.EventServiceBase
+import de.ososystem.human.infrastructure.entities.DomainEventEntity
+import de.ososystem.human.infrastructure.entities.SendState
+import de.ososystem.human.infrastructure.repositories.EventRepositorySpring
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
+import org.springframework.scheduling.annotation.Async
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.util.concurrent.ListenableFutureCallback
 import java.lang.Exception
 import java.time.ZonedDateTime
@@ -16,6 +21,7 @@ import java.time.ZonedDateTime
 class EventServiceKafka(
     eventFactory: EventFactory,
     val eventRepository: EventRepository,
+    val eventRepositorySpring: EventRepositorySpring,
     val kafkaTemplate: KafkaTemplate<String, String>,
     val objectMapper: ObjectMapper
 ) : EventServiceBase(
@@ -24,26 +30,23 @@ class EventServiceKafka(
     override fun fireEvent(event: HumanEvent) {
         LOGGER.info("firing of event<$event> requested")
         eventRepository.saveEvent(event)
-
-        fireEvents()
     }
 
-    // TODO this should be triggered frequently outside of the fireEvent-method
-    // we do want to have this happen asynchronously to fireEvent
-    // this shall ensure
-    // 1. firing of events will be retriggered ( a certain amount of times ) until it was successfull, independent of any errors, etc
-    // 2. whatever triggers fireEvent will run independent of this routine
-    private fun fireEvents() {
+    // TODO set the delay via configuration
+    // TODO maybe enable triggering of this method via fireEvent
+    // TODO execute this in a separate thread just for its own purpose
+    @Scheduled(fixedDelay = 1000)
+    fun fireEvents() {
         LOGGER.debug("checking for event to fire")
-        eventRepository.findUnSentEvents().forEach { event ->
+        eventRepositorySpring.findBySendStateNotIn(listOf(SendState.SENT, SendState.SUCCESSFULL)).forEach { event ->
             LOGGER.info("firing event<$event>")
             val result = kafkaTemplate.send(event.topic, event.key, event.toSendString())
 
-            //event.sentDate = ZonedDateTime.now()
-            //event.sendStatus = SEND
-            //event.sends++
+            event.lastSendTime = ZonedDateTime.now()
+            event.sendState = SendState.SENT
+            event.sendTries++
 
-            eventRepository.saveEvent(event)
+            eventRepositorySpring.save(event)
 
             result.addCallback(object : ListenableFutureCallback<SendResult<String, String>> {
                 override fun onSuccess(result: SendResult<String, String>?) {
@@ -59,25 +62,25 @@ class EventServiceKafka(
 
     private fun onSuccess(result: SendResult<String, String>?, eventId: Id) {
         LOGGER.debug("event<$eventId> fired successfully")
-        val event = eventRepository.findEventById(eventId)
+        val event = eventRepositorySpring.findById(eventId).orElse(null)
         event ?: TODO("something happened to the Event in between sending and successfull sent")
-        //event.sendStatus = SUCCESS
-        eventRepository.saveEvent(event)
+        event.sendState = SendState.SUCCESSFULL
+        eventRepositorySpring.save(event)
     }
 
     private fun onFailure(ex: Throwable, eventId: Id) {
-        LOGGER.debug("event<$eventId> firing failed")
-        val event = eventRepository.findEventById(eventId)
+        LOGGER.debug("event<$eventId> firing failed with exception<$ex>")
+        val event = eventRepositorySpring.findById(eventId).orElse(null)
 
         event ?: TODO("something happened to the event in between sending and failed sent")
-        //event.sendStatus = FAILURE
-        eventRepository.saveEvent(event)
+        event.sendState = SendState.FAILED
+        eventRepositorySpring.save(event)
     }
 
-    val HumanEvent.topic: String
+    val DomainEventEntity.topic: String
         get() = domain
 
-    fun HumanEvent.toSendString() =
+    fun DomainEventEntity.toSendString() =
         objectMapper.writeValueAsString(
             mutableMapOf(
                 "id" to id,
@@ -88,11 +91,6 @@ class EventServiceKafka(
                 "payload" to payload
             )
         )
-
-    private fun EventRepository.findUnSentEvents(): Iterable<HumanEvent> {
-        // TODO method missing currently
-        return findEventWithHighestId()?.let { listOf(it) } ?: emptyList()
-    }
 
     companion object {
         private val LOGGER = LoggerFactory.getLogger(EventServiceKafka::class.java)

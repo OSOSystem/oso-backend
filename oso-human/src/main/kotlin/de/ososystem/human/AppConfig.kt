@@ -30,6 +30,8 @@ import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.retry.backoff.FixedBackOffPolicy
 import org.springframework.retry.policy.SimpleRetryPolicy
 import org.springframework.retry.support.RetryTemplate
+import org.springframework.scheduling.annotation.EnableAsync
+import org.springframework.scheduling.annotation.EnableScheduling
 import org.springframework.web.client.RestTemplate
 
 
@@ -41,6 +43,8 @@ import org.springframework.web.client.RestTemplate
 @ComponentScan(basePackages = [ "de.ososystem.human.infrastructure" ])
 @EnableJpaRepositories(basePackages = [ "de.ososystem.human.infrastructure.repositories" ],
     excludeFilters = [ ComponentScan.Filter(type = FilterType.REGEX, pattern = [ ".*Impl.*" ]) ])
+@EnableScheduling
+@EnableAsync
 class AppConfig (
     @Autowired
     val context: ApplicationContext
@@ -94,8 +98,8 @@ class AppConfig (
     fun humanRepository(humanRepositorySpring: HumanRepositorySpring): HumanRepository = HumanRepositoryImpl(humanRepositorySpring)
 
     @Bean
-    fun eventService(eventFactory: EventFactory, eventRepository: EventRepository, kafkaTemplate: KafkaTemplate<String, String>, objectMapper: ObjectMapper): EventService
-        = EventServiceKafka(eventFactory, eventRepository, kafkaTemplate, objectMapper)
+    fun eventService(eventFactory: EventFactory, eventRepository: EventRepository, eventRepositorySpring: EventRepositorySpring, kafkaTemplate: KafkaTemplate<String, String>, objectMapper: ObjectMapper): EventService
+        = EventServiceKafka(eventFactory, eventRepository, eventRepositorySpring, kafkaTemplate, objectMapper)
 
     @Bean
     fun eventFactory(eventRepository: EventRepository): EventFactory = EventFactoryImpl(eventRepository, humanMapper())
