@@ -5,7 +5,6 @@ import de.ososystem.human.domain.events.Domain
 import de.ososystem.human.domain.events.HumanEvent
 import de.ososystem.human.domain.events.Type
 import de.ososystem.human.domain.factories.EventFactory
-import de.ososystem.human.domain.repositories.EventRepository
 import de.ososystem.human.domain.services.EventService
 import org.slf4j.LoggerFactory
 

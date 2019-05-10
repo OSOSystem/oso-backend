@@ -12,10 +12,8 @@ import de.ososystem.human.infrastructure.repositories.EventRepositorySpring
 import org.slf4j.LoggerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
-import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.util.concurrent.ListenableFutureCallback
-import java.lang.Exception
 import java.time.ZonedDateTime
 
 class EventServiceKafka(
