@@ -17,13 +17,13 @@ class DomainEventEntity(
     val type: Type,
     val key: String,
 
-    val payload: ByteArray
-) {
-    @Enumerated(value = EnumType.STRING)
-    var sendState: SendState = SendState.UNSENT
-    var lastSendTime: ZonedDateTime? = null
-    var sendTries = 0
+    val payload: ByteArray,
 
+    @Enumerated(value = EnumType.STRING)
+    var sendState: SendState = SendState.UNSENT,
+    var lastSendTime: ZonedDateTime? = null,
+    var sendTries: Int = 0
+) {
     fun toEvent() = HumanEvent(id, version, time, domain, type, key, payload)
 }
 

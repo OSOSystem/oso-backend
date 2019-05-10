@@ -39,25 +39,29 @@ class EventServiceKafka(
     fun fireEvents() {
         LOGGER.debug("checking for event to fire")
         eventRepositorySpring.findBySendStateNotIn(listOf(SendState.SENT, SendState.SUCCESSFULL)).forEach { event ->
-            LOGGER.info("firing event<$event>")
-            val result = kafkaTemplate.send(event.topic, event.key, event.toSendString())
-
-            event.lastSendTime = ZonedDateTime.now()
-            event.sendState = SendState.SENT
-            event.sendTries++
-
-            eventRepositorySpring.save(event)
-
-            result.addCallback(object : ListenableFutureCallback<SendResult<String, String>> {
-                override fun onSuccess(result: SendResult<String, String>?) {
-                    onSuccess(result, event.id)
-                }
-
-                override fun onFailure(ex: Throwable) {
-                    onFailure(ex, event.id)
-                }
-            })
+            fireEvent(event)
         }
+    }
+
+    internal fun fireEvent(event: DomainEventEntity) {
+        LOGGER.info("firing event<$event>")
+        val result = kafkaTemplate.send(event.topic, event.key, event.toSendString())
+
+        event.lastSendTime = ZonedDateTime.now()
+        event.sendState = SendState.SENT
+        event.sendTries++
+
+        eventRepositorySpring.save(event)
+
+        result.addCallback(object : ListenableFutureCallback<SendResult<String, String>> {
+            override fun onSuccess(result: SendResult<String, String>?) {
+                onSuccess(result, event.id)
+            }
+
+            override fun onFailure(ex: Throwable) {
+                onFailure(ex, event.id)
+            }
+        })
     }
 
     private fun onSuccess(result: SendResult<String, String>?, eventId: Id) {

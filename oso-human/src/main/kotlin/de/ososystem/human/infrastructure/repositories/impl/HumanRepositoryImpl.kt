@@ -26,8 +26,7 @@ class HumanRepositoryImpl(
     override fun deleteHumanById(id: UUID) = deleteById(id)
     override fun deleteAllHumans(humans: Iterable<Human>) = deleteAll(humans.toEntities())
     override fun deleteAllHumans() = deleteAll()
+
+    private fun Iterable<Human>.toEntities() = this.map { it.toEntity() }
+    private fun Iterable<HumanEntity>.toHumans() = this.map { it.toHuman() }
 }
-
-
-private fun Iterable<Human>.toEntities() = this.map { it.toEntity() }
-private fun Iterable<HumanEntity>.toHumans() = this.map { it.toHuman() }
