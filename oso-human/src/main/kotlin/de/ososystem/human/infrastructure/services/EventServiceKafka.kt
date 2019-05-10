@@ -61,7 +61,7 @@ class EventServiceKafka(
     }
 
     private fun onSuccess(result: SendResult<String, String>?, eventId: Id) {
-        LOGGER.debug("event<$eventId> fired successfully")
+        LOGGER.debug("event<$eventId> fired successfully - result<$result>")
         val event = eventRepositorySpring.findById(eventId).orElse(null)
         event ?: TODO("something happened to the Event in between sending and successfull sent")
         event.sendState = SendState.SUCCESSFULL
