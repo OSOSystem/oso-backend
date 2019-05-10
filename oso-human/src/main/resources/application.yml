@@ -11,18 +11,11 @@ spring:
     serialization:
       indent_output: true
 
-  datasource:
-    url: TODO missing
-    username: oso_human
-    password: oso
-
 logging:
   level:
     org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl: ALL
 
 kafka:
-  bootstrapAddress: TODO define
-
   topic:
     human:
       name: human
