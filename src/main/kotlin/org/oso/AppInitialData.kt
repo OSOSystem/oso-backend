@@ -57,8 +57,8 @@ class AppInitialData
         deviceRepository.save(reachFarTracker)
         deviceRepository.save(nanoTracker)
 
-        val hr = HelpRequester(name = "Peter", keycloakName = "contact@ososystem.de")
-        val hp = HelpProvider(name = "Max", keycloakName = "contact@ososystem.de")
+        val hr = HelpRequester(name = "Pierre", keycloakName = "contact@ososystem.de")
+        val hp = HelpProvider(name = "Valentino", keycloakName = "contact@ososystem.de", expoPushToken = "ExponentPushToken[fhoSO1NJBXDD4u7BlFBBHU]")
         helpRequesterRepository.save(hr)
         helpProviderRepository.save(hp)
     }

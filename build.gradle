@@ -70,8 +70,8 @@ dependencies {
     implementation "org.springframework.integration:spring-integration-ip"
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin"
     implementation "org.postgresql:postgresql"
-    implementation "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
-    implementation "org.keycloak:keycloak-spring-security-adapter:$keycloakVersion"
+//    implementation "org.keycloak:keycloak-spring-boot-starter:$keycloakVersion"
+//    implementation "org.keycloak:keycloak-spring-security-adapter:$keycloakVersion"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc"
