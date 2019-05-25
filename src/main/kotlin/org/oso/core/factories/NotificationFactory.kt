@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.oso.core.dtos.PushNotification
 import org.oso.core.entities.Coordinate
 import org.oso.core.entities.Emergency
-import org.oso.core.entities.EmergencyType
+import org.oso.core.entities.EmergencyPriority
 import org.oso.core.services.external.GeoMapService
 import org.springframework.stereotype.Component
 
@@ -25,7 +25,7 @@ class NotificationFactory constructor(
                 objectMapper.writeValueAsString(
                     PushNotificationEmergency(
                         helpRequesterId!!,
-                        emergency.emergencyType,
+                        emergency.emergencyPriority,
                         coordinates,
                         formattedAddress
                     )
@@ -52,7 +52,7 @@ class NotificationFactory constructor(
 
 private class PushNotificationEmergency(
     val helpRequesterId: String,
-    val emergencyType: EmergencyType,
+    val emergencyPriority: EmergencyPriority,
     val coordinates: Coordinate?,
     val formattedAddress: String?
 )

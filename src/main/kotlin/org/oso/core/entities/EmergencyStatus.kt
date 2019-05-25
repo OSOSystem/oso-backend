@@ -5,8 +5,8 @@ import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
-@IdClass(EmergencyActionId::class)
-class EmergencyAction(
+@IdClass(EmergencyStatusId::class)
+class EmergencyStatus(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emergency_id")
     @Id
@@ -17,11 +17,11 @@ class EmergencyAction(
     @JoinColumn(name = "helpprovider_id")
     val helpProvider: HelpProvider,
     @ManyToOne
-    @JoinColumn(name ="EmergencyAction_name")
-    val type: EmergencyActionType
+    @JoinColumn(name ="EmergencyStatus_name")
+    val type: EmergencyStatusType
 )
 
-data class EmergencyActionId(
+data class EmergencyStatusId(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "emergency_id")
     @Id

@@ -1,5 +1,6 @@
 package org.oso.core.controller
 
+import org.oso.config.Paths
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -9,7 +10,7 @@ import org.oso.any
 import org.oso.core.controllers.EmergencyController
 import org.oso.core.dtos.EmergencyDto
 import org.oso.core.entities.Emergency
-import org.oso.core.entities.EmergencyType
+import org.oso.core.entities.EmergencyPriority
 import org.oso.core.entities.HelpRequester
 import org.oso.core.services.EmergencyService
 import org.oso.core.services.HelpRequesterService
@@ -52,12 +53,12 @@ class EmergencyControllerTest {
         val emergency = Emergency(
             "4711",
             helpRequester,
-            EmergencyType.LOW
+            EmergencyPriority.LOW
         )
 
         val emergencyDto = EmergencyDto(
             helpRequester.id!!,
-            emergency.emergencyType
+            emergency.emergencyPriority
         )
 
         Mockito.doNothing().`when`(emergencyService).emit(any())
@@ -66,13 +67,13 @@ class EmergencyControllerTest {
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/${EmergencyController.PATH_EMERGENCY}/${EmergencyController.PATH_EMIT}")
+                    .post("/${Paths.Emergency.ROOT}/${Paths.Emergency.EMIT}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8.name())
                     .content(objectMapper.writeValueAsString(emergencyDto)))
 
             .andExpect(MockMvcResultMatchers.status().isCreated)
-            .andDo(MockMvcRestDocumentation.document(EmergencyController.PATH_EMERGENCY))
+            .andDo(MockMvcRestDocumentation.document(Paths.Emergency.ROOT))
 
         // TODO test if the argument for emit has the correct parameters
         Mockito.verify(emergencyService, Mockito.times(1)).emit(any())
@@ -83,7 +84,7 @@ class EmergencyControllerTest {
     fun `testEmit Excpetion on unknown helpRequester`() {
         val emergencyDto = EmergencyDto(
             "25",
-            EmergencyType.LOW
+            EmergencyPriority.LOW
         )
 
         Mockito.`when`(helpRequesterService.findById(ArgumentMatchers.anyString())).thenThrow(IllegalArgumentException())
@@ -92,12 +93,12 @@ class EmergencyControllerTest {
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/${EmergencyController.PATH_EMERGENCY}/${EmergencyController.PATH_EMIT}")
+                    .post("/${Paths.Emergency.ROOT}/${Paths.Emergency.EMIT}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8.name())
                     .content(ObjectMapper().writeValueAsString(emergencyDto)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
-            .andDo(MockMvcRestDocumentation.document("${EmergencyController.PATH_EMERGENCY}/exc"))
+            .andDo(MockMvcRestDocumentation.document("${Paths.Emergency.ROOT}/exc"))
     }
 
     @Test
@@ -105,7 +106,7 @@ class EmergencyControllerTest {
 
 //        val parameters = listOf(
 //            "helprequester" to "25",
-//            "emergencyType" to "LOW"
+//            "emergencyPriority" to "LOW"
 //        )
 //
 //        // TODO test fails if helprequester is not given, as the helprequester-id will currently be defaulted to 0 which leads to HTTP 404 instead of 400

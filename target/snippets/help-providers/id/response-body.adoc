@@ -1,0 +1,8 @@
+[source,options="nowrap"]
+----
+{
+  "id" : "HP-myself",
+  "name" : "myself",
+  "expoPushToken" : null
+}
+----

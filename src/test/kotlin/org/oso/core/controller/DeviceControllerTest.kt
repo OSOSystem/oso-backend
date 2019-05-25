@@ -1,5 +1,6 @@
 package org.oso.core.controller
 
+import org.oso.config.Paths
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.collection.IsCollectionWithSize
 import org.junit.jupiter.api.Test
@@ -51,7 +52,7 @@ class DeviceControllerTest {
         `when`(deviceService.findAll()).thenReturn(devices)
 
         this.mockMvc
-            .perform(get("/${DeviceController.PATH_DEVICES}").contentType(MediaType.APPLICATION_JSON))
+            .perform(get("/${Paths.Device.DEVICES}").contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk)
             .andExpect(jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(3)))
             .andExpect(jsonPath("$[0].id", `is`(devices[0].id)))
@@ -60,6 +61,6 @@ class DeviceControllerTest {
             .andExpect(jsonPath("$[1].deviceType.name", `is`(devices[1].deviceType!!.name)))
             .andExpect(jsonPath("$[2].id", `is`(devices[2].id)))
             .andExpect(jsonPath("$[2].deviceType.name", `is`(devices[2].deviceType!!.name)))
-            .andDo(document(DeviceController.PATH_DEVICES))
+            .andDo(document(Paths.Device.DEVICES))
     }
 }

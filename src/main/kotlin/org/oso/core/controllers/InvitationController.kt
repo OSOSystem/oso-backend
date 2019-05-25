@@ -1,5 +1,6 @@
 package org.oso.core.controllers
 
+import org.oso.config.Paths
 import org.oso.core.events.InvitationEvent
 import org.oso.core.services.HelpProviderService
 import org.oso.core.services.HelpRequesterService
@@ -15,7 +16,7 @@ import java.net.URL
 import javax.servlet.http.HttpServletRequest
 
 @Controller
-@RequestMapping(InvitationController.PATH_INVITATION)
+@RequestMapping(Paths.Invitation.INVITATION)
 class InvitationController
     @Autowired constructor(
         private val securityService: SecurityService,
@@ -24,7 +25,7 @@ class InvitationController
         private val helpProviderService: HelpProviderService
     ) {
 
-    @GetMapping(PATH_REQUEST)
+    @GetMapping(Paths.Invitation.REQUEST)
     fun requestInvitation(request: HttpServletRequest, @RequestParam hrId: String, @RequestParam hpId: String): ResponseEntity<Unit> {
         val helpRequester = helpRequesterService.findById(hrId)
         val helpProvider = helpProviderService.findById(hpId)
@@ -45,7 +46,7 @@ class InvitationController
 
     fun url(protocol: String, host: String, port: Int): URL = URL(protocol, host, port, "")
 
-    @GetMapping(PATH_ACCEPT)
+    @GetMapping(Paths.Invitation.ACCEPTED)
     fun acceptInvitation(@RequestParam token: String): String {
         val verificationToken = securityService.getVerificationToken(token)
 
@@ -57,11 +58,5 @@ class InvitationController
         }
 
         return "invitationAccepted"
-    }
-
-    companion object {
-        const val PATH_INVITATION = "invitation"
-        const val PATH_REQUEST = "request"
-        const val PATH_ACCEPT = "accept"
     }
 }

@@ -1,5 +1,6 @@
 package org.oso.core.controllers
 
+import org.oso.config.Paths
 import org.oso.core.dtos.HelpProviderDto
 import org.oso.core.dtos.toDto
 import org.oso.core.entities.HelpProvider
@@ -13,19 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
-@RequestMapping(HelpRequesterController.PATH_HELP_REQUESTERS)
+@RequestMapping(Paths.HelpRequester.REQUESTERS)
 class HelpRequesterController
     @Autowired
     constructor(private val helpRequesterService: HelpRequesterService) {
 
-    @GetMapping("{id}/$PATH_HELP_PROVIDERS")
+    @GetMapping("{id}/${Paths.HelpRequester.PROVIDERS}")
     @ResponseBody
     fun findHelpProviders(@PathVariable id: String): List<HelpProviderDto> {
         return helpRequesterService.findHelpProviders(id)?.map { it.toDto() }?: throw HelpRequesterNotFoundException("HR with id $id not found")
-    }
-
-    companion object {
-        const val PATH_HELP_REQUESTERS = "help-requesters"
-        const val PATH_HELP_PROVIDERS = "help-providers"
     }
 }

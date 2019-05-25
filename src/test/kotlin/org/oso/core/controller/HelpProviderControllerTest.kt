@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito
 import org.oso.any
+import org.oso.config.Paths
 import org.oso.core.controllers.HelpProviderController
 import org.oso.core.dtos.EmergencyAcceptedDto
 import org.oso.core.dtos.HelpProviderPushDto
@@ -70,7 +71,7 @@ class HelpProviderControllerTest {
         Mockito.`when`(helpProviderService.findAll()).thenReturn(helpProviders)
 
         this.mockMvc
-            .perform(MockMvcRequestBuilders.get("/${HelpProviderController.PATH_HELP_PROVIDERS}").contentType(MediaType.APPLICATION_JSON))
+            .perform(MockMvcRequestBuilders.get("/${Paths.HelpProvider.PROVIDERS}").contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(3)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.`is`(helpProviders[0].id)))
@@ -82,7 +83,7 @@ class HelpProviderControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$[2].id", Matchers.`is`(helpProviders[2].id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[2].name", Matchers.`is`(helpProviders[2].name)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[2].expoPushToken", Matchers.`is`(helpProviders[2].expoPushToken)))
-            .andDo(MockMvcRestDocumentation.document(HelpProviderController.PATH_HELP_PROVIDERS))
+            .andDo(MockMvcRestDocumentation.document(Paths.HelpProvider.PROVIDERS))
     }
 
     @Test
@@ -137,13 +138,13 @@ class HelpProviderControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${HelpProviderController.PATH_HELP_PROVIDERS}/${helpProvider.id}")
+                .get("/${Paths.HelpProvider.PROVIDERS}/${helpProvider.id}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.`is`(helpProvider.id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$.name", Matchers.`is`(helpProvider.name)))
             .andExpect(MockMvcResultMatchers.jsonPath("$.expoPushToken", Matchers.`is`(helpProvider.expoPushToken)))
-            .andDo(MockMvcRestDocumentation.document(HelpProviderController.PATH_HELP_PROVIDERS + "/id"))
+            .andDo(MockMvcRestDocumentation.document(Paths.HelpProvider.PROVIDERS + "/id"))
     }
 
     @Test
@@ -152,7 +153,7 @@ class HelpProviderControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${HelpProviderController.PATH_HELP_PROVIDERS}/1")
+                .get("/${Paths.HelpProvider.PROVIDERS}/1")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
@@ -187,7 +188,7 @@ class HelpProviderControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${HelpProviderController.PATH_HELP_PROVIDERS}/$id/${HelpProviderController.PATH_HELP_REQUESTERS}")
+                .get("/${Paths.HelpProvider.PROVIDERS}/$id/${Paths.HelpProvider.REQUESTERS}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$", IsCollectionWithSize.hasSize<Collection<Any>>(2)))
@@ -195,7 +196,7 @@ class HelpProviderControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.`is`(helpRequesters[0].name)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].id", Matchers.equalTo(helpRequesters[1].id)))
             .andExpect(MockMvcResultMatchers.jsonPath("$[1].name", Matchers.`is`(helpRequesters[1].name)))
-            .andDo(MockMvcRestDocumentation.document(HelpProviderController.PATH_HELP_PROVIDERS + "/id/${HelpProviderController.PATH_HELP_PROVIDERS}"))
+            .andDo(MockMvcRestDocumentation.document(Paths.HelpProvider.PROVIDERS + "/id/${Paths.HelpProvider.PROVIDERS}"))
     }
 
     @Test
@@ -204,7 +205,7 @@ class HelpProviderControllerTest {
 
         this.mockMvc.perform(
             MockMvcRequestBuilders
-                .get("/${HelpProviderController.PATH_HELP_PROVIDERS}/25/${HelpProviderController.PATH_HELP_REQUESTERS}")
+                .get("/${Paths.HelpProvider.PROVIDERS}/25/${Paths.HelpProvider.REQUESTERS}")
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
@@ -222,13 +223,13 @@ class HelpProviderControllerTest {
         this.mockMvc
             .perform(
                 MockMvcRequestBuilders
-                    .post("/${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}")
+                    .post("/${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.ACCEPTED_EMERGENCY}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .characterEncoding(StandardCharsets.UTF_8.name())
                     .content(ObjectMapper().writeValueAsString(dto)))
 
             .andExpect(MockMvcResultMatchers.status().isAccepted)
-            .andDo(MockMvcRestDocumentation.document("${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}"))
+            .andDo(MockMvcRestDocumentation.document("${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.ACCEPTED_EMERGENCY}"))
 
         Mockito.verify(helpProviderService, Mockito.times(1)).acceptEmergency(dto.emergencyId, dto.helpProviderId)
     }

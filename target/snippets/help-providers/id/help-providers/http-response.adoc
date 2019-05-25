@@ -1,0 +1,14 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Length: 82
+Content-Type: application/json;charset=UTF-8
+
+[ {
+  "id" : "4711",
+  "name" : "A"
+}, {
+  "id" : "4712",
+  "name" : "B"
+} ]
+----

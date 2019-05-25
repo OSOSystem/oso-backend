@@ -1,0 +1,29 @@
+[source,http,options="nowrap"]
+----
+HTTP/1.1 200 OK
+Content-Length: 435
+Content-Type: application/json;charset=UTF-8
+
+[ {
+  "id" : "Flic1",
+  "helpRequester" : null,
+  "deviceType" : {
+    "name" : "Flic-Button"
+  },
+  "deviceCoordinates" : [ ]
+}, {
+  "id" : "Reachfar1234567890",
+  "helpRequester" : null,
+  "deviceType" : {
+    "name" : "Rechfar Tracker RV-V18"
+  },
+  "deviceCoordinates" : [ ]
+}, {
+  "id" : "Nano4711",
+  "helpRequester" : null,
+  "deviceType" : {
+    "name" : "Nano Tracker"
+  },
+  "deviceCoordinates" : [ ]
+} ]
+----

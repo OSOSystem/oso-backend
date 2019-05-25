@@ -1,5 +1,5 @@
 package org.oso.core.entities
 
-enum class EmergencyType {
+enum class EmergencyPriority {
     HIGH, MEDIUM, LOW
 }
