@@ -20,7 +20,6 @@ class DefaultEmergencyService
     constructor(
         private val notificationService: NotificationService,
         private val emergencyRepository: EmergencyRepository,
-        private val emergencyService: EmergencyService,
         private val emergencyStatusService: EmergencyStatusService,
         private val helpProviderRepository: HelpProviderRepository
     ) : EmergencyService {
@@ -43,7 +42,7 @@ class DefaultEmergencyService
     }
 
     override fun acceptEmergency(emergencyId: String, helpProviderId: String) {
-        val emergency = emergencyService.findEmergency(emergencyId);
+        val emergency = findEmergency(emergencyId);
         LOGGER.debug("emergency<$emergencyId> accepted by helpProvider<$helpProviderId>")
 
         if (emergency == null) {
