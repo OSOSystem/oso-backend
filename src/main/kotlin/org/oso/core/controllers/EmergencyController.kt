@@ -1,18 +1,16 @@
 package org.oso.core.controllers
 
 import org.oso.config.Paths
-import org.oso.core.dtos.EmergencyDto
+import org.oso.core.dtos.*
 import org.oso.core.entities.Emergency
 import org.oso.core.exceptions.HelpRequesterNotFoundException
 import org.oso.core.services.EmergencyService
 import org.oso.core.services.HelpRequesterService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.*
 
 
 @Controller
@@ -37,6 +35,16 @@ class EmergencyController
         )
 
         emergencyService.emit(emergency)
+    }
+
+    @PostMapping(Paths.Emergency.ACCEPTED)
+    fun acceptEmergency(@RequestBody emergencyAccepted: EmergencyAcceptedDto): ResponseEntity<Unit> {
+        emergencyService.acceptEmergency(
+                emergencyId = emergencyAccepted.emergencyId,
+                helpProviderId = emergencyAccepted.helpProviderId
+        )
+
+        return ResponseEntity.accepted().build<Unit>()
     }
 
 }

@@ -18,7 +18,6 @@ class DefaultHelpProviderService
     @Autowired
     constructor(
         private val notificationService: NotificationService,
-        private val emergencyStatusService: EmergencyStatusService,
         private val helpProviderRepository: HelpProviderRepository,
         private val emergencyService: EmergencyService
     ) : HelpProviderService {
@@ -39,53 +38,5 @@ class DefaultHelpProviderService
     override fun createHelpProvider(helpProvider: HelpProvider): HelpProvider =
         helpProviderRepository.save(helpProvider)
 
-    override fun acceptEmergency(emergencyId: String, helpProviderId: String) {
-        val emergency = emergencyService.findEmergency(emergencyId);
-        LOGGER.debug("emergency<$emergencyId> accepted by helpProvider<$helpProviderId>")
 
-        if (emergency == null) {
-            LOGGER.warn("emergency<$emergencyId> does not exist")
-            return
-        }
-
-        val helpProvider = helpProviderRepository.findById(helpProviderId).orElse(null)
-
-        if (helpProvider == null) {
-            LOGGER.warn("helpProvider<$helpProviderId> does not exist")
-            return
-        }
-
-        if (!helpProvider.isAssignedTo(emergency.helpRequester)) {
-            LOGGER.warn("helpProvider<$helpProviderId> is not assigned to helpRequester<${emergency.helpRequester.id}")
-            LOGGER.warn("helpProvider<$helpProviderId> is not allowed to accept emergency<$emergencyId> for helpresquester<${emergency.helpRequester.id}>")
-            return
-        }
-
-        emergencyStatusService.addStatus(emergency, helpProvider, EmergencyStatusType.TYPE_ACCEPTED)
-
-        if (!emergency.active) {
-            LOGGER.info("emergency<$emergencyId> is already resolved")
-            return
-        }
-        emergency.helpRequester.helpProviders
-            .filter { it.expoPushToken != null }
-            .filter { it.id != helpProviderId }
-            .map {
-                notificationService.createEmergencyAcceptedPushNotification(
-                        to = it.expoPushToken!!,
-                        alarmID = emergencyId,
-                        helpRequesterId = emergency.helpRequester.id!!,
-                        helpProviderId = helpProviderId
-                )
-            }
-            .let {
-                if(!it.isEmpty()) {
-                    notificationService.sendPushNotification(it)
-                }
-            }
-    }
-
-    companion object {
-        private val LOGGER: Logger = LoggerFactory.getLogger(DefaultHelpProviderService::class.java)
-    }
 }

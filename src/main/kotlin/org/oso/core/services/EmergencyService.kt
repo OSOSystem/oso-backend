@@ -13,4 +13,5 @@ interface EmergencyService {
      * @param emergency The emergency containing relevant information
      */
     fun emit(emergency: Emergency)
+    fun acceptEmergency(emergencyId: String, helpProviderId: String)
 }
