@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ curl 'http://localhost:8080/emergency/accepted' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -d '{"emergencyId":"25","helpRequesterId":"46","helpProviderId":"38"}'
+----

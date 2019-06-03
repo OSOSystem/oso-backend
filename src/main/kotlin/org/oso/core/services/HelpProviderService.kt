@@ -8,5 +8,4 @@ interface HelpProviderService {
     fun findById(id: String): HelpProvider?
     fun findHelpRequesters(id: String): Set<HelpRequester>
     fun createHelpProvider(helpProvider: HelpProvider): HelpProvider
-    fun acceptEmergency(emergencyId: String, helpProviderId: String)
 }

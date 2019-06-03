@@ -11,7 +11,6 @@ import org.mockito.Mockito
 import org.oso.any
 import org.oso.config.Paths
 import org.oso.core.controllers.HelpProviderController
-import org.oso.core.dtos.EmergencyAcceptedDto
 import org.oso.core.dtos.HelpProviderPushDto
 import org.oso.core.entities.HelpProvider
 import org.oso.core.entities.HelpRequester
@@ -90,11 +89,6 @@ class HelpProviderControllerTest {
     fun testCreateHelpProvider() {
         val dto = HelpProviderPushDto(
             name = "HelpProvider"
-        )
-        val helpProvider = HelpProvider(
-            id = "12345",
-            name = dto.name,
-            keycloakName = "keycloak12345"
         )
 
         Mockito.`when`(helpProviderService.createHelpProvider(any())).thenThrow(IllegalArgumentException())
@@ -210,41 +204,7 @@ class HelpProviderControllerTest {
             .andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
-    @Test
-    fun testAcceptEmergency() {
-        val dto = EmergencyAcceptedDto(
-            emergencyId = "25",
-            helpProviderId = "38",
-            helpRequesterId = "46"
-        )
 
-        Mockito.doNothing().`when`(helpProviderService).acceptEmergency(dto.emergencyId, dto.helpProviderId)
-
-        this.mockMvc
-            .perform(
-                MockMvcRequestBuilders
-                    .post("/${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.ACCEPTED_EMERGENCY}")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .characterEncoding(StandardCharsets.UTF_8.name())
-                    .content(ObjectMapper().writeValueAsString(dto)))
-
-            .andExpect(MockMvcResultMatchers.status().isAccepted)
-            .andDo(MockMvcRestDocumentation.document("${Paths.HelpProvider.PROVIDERS}/${Paths.HelpProvider.ACCEPTED_EMERGENCY}"))
-
-        Mockito.verify(helpProviderService, Mockito.times(1)).acceptEmergency(dto.emergencyId, dto.helpProviderId)
-    }
-
-    @Test
-    fun `testAcceptEmergency throws exception on missing parameter`() {
-//        val parameters = listOf(
-//            "emergencyId" to "25",
-//            "helpProviderId" to "38",
-//            "helpRequesterId" to "46"
-//        )
-//
-//        // TODO this test always fails as jackson does not recognize the non-nullable parameters correclty
-//        testFailOnMissingParameters(mockMvc, "${HelpProviderController.PATH_HELP_PROVIDERS}/${HelpProviderController.PATH_ACCEPT_EMERGENCY}", parameters)
-    }
 
     companion object {
         private const val userName = "User"

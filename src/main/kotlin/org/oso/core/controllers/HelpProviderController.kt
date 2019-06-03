@@ -47,16 +47,6 @@ class HelpProviderController
         }
     }
 
-    // TODO eventually move to emergency controller
-    @PostMapping(Paths.HelpProvider.ACCEPTED_EMERGENCY)
-    fun acceptEmergency(@RequestBody emergencyAccepted: EmergencyAcceptedDto): ResponseEntity<Unit> {
-        helpProviderService.acceptEmergency(
-            emergencyId = emergencyAccepted.emergencyId,
-            helpProviderId = emergencyAccepted.helpProviderId
-        )
-
-        return ResponseEntity.accepted().build<Unit>()
-    }
 
     private fun getHelpProviderOrFail(id: String): HelpProvider {
         return helpProviderService.findById(id) ?: throw HelpProviderNotFoundException("HelpProvider<$id> not found")
@@ -66,4 +56,5 @@ class HelpProviderController
         name = name,
         keycloakName = securityService.getCurrentUserName()
     )
+
 }

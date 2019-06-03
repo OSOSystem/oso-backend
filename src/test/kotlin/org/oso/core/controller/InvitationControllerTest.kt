@@ -70,7 +70,12 @@ class InvitationControllerTest {
                 MockMvcRequestBuilders
                         .get("/${Paths.Invitation.INVITATION}/${Paths.Invitation.ACCEPTED}?token=test123"))
             .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("successful")))
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.anyOf(
+                                Matchers.containsString("successfull"),
+                                Matchers.containsString("erfolgreich angenommen"))
+                )
+                )
 
         Assert.assertThat(hr.helpProviders, Matchers.iterableWithSize<HelpProvider>(1))
         Assert.assertThat(hr.helpProviders, Matchers.hasItem(hp))
@@ -90,7 +95,12 @@ class InvitationControllerTest {
                 MockMvcRequestBuilders
                         .get("/${Paths.Invitation.INVITATION}/${Paths.Invitation.ACCEPTED}?token=test123"))
                 .andExpect(MockMvcResultMatchers.status().isOk)
-                .andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("expired")))
+                .andExpect(MockMvcResultMatchers.content().string(
+                        Matchers.anyOf(
+                                Matchers.containsString("expired"),
+                                Matchers.containsString("nicht mehr gültig"))
+                )
+                )
 
         Assert.assertThat(hr.helpProviders, Matchers.iterableWithSize<HelpProvider>(0))
         Assert.assertThat(hp.helpRequesters, Matchers.iterableWithSize<HelpRequester>(0))
