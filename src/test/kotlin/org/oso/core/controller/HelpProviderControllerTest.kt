@@ -90,11 +90,6 @@ class HelpProviderControllerTest {
         val dto = HelpProviderPushDto(
             name = "HelpProvider"
         )
-        val helpProvider = HelpProvider(
-            id = "12345",
-            name = dto.name,
-            keycloakName = "keycloak12345"
-        )
 
         Mockito.`when`(helpProviderService.createHelpProvider(any())).thenThrow(IllegalArgumentException())
         //Mockito.doReturn(helpProvider).`when`(helpProviderService).createHelpProvider(ArgumentMatchers.any())
