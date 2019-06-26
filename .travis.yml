@@ -42,17 +42,8 @@ after_success:
   - chmod +x send.sh
   - ./send.sh success $WEBHOOK_URL
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
-  - git clone git://${GH_REPO}
-  - mv -f ${DOC_PATH}/${FILE} ${REPO}
-  - cd ${REPO}
-  - git remote
-  - git config user.email ${EMAIL}
-  - git config user.name ${USER}
-  - git config user.email
-  - git config user.name
-  - git add ${FILE}
-  - git commit -m "${MESSAGE}"
-  - git push "https://${GITHUB_TOKEN}@${GH_REPO}" master
+  - TOKEN="${GITHUB_TOKEN}"
+  - push-api-documentation USER EMAIL DOC_PATH FILE REPO GH_REPO MESSAGE TOKEN
 
 after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
