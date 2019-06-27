@@ -9,6 +9,8 @@ GH_REPO=$6
 MESSAGE=$7
 TOKEN=$8
 
+echo $MESSAGE
+
 if grep -q $MESSAGE "[generate api-doc]";
 then
     git clone git://$GH_REPO
