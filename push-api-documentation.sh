@@ -21,4 +21,11 @@ if [[ $MESSAGE == *"[generate api-doc]"* ]]; then
     git add $FILE
     git commit -m "$MESSAGE"
     git push "https://$TOKEN@$GH_REPO" master
+
+    echo "Done!"
+
+else
+    echo "No push needed"
 fi
+
+
