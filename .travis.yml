@@ -44,7 +44,7 @@ after_success:
   - MESSAGE=$(git log --format=%B -n 1 $TRAVIS_COMMIT)
   - TOKEN="${GITHUB_TOKEN}"
   - chmod +x push-api-documentation.sh
-  - ./push-api-documentation.sh USER EMAIL DOC_PATH FILE REPO GH_REPO MESSAGE TOKEN
+  - ./push-api-documentation.sh $USER $EMAIL $DOC_PATH $FILE $REPO $GH_REPO $MESSAGE $TOKEN
 
 after_failure:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
