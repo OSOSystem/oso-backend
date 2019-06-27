@@ -9,7 +9,8 @@ GH_REPO=$6
 MESSAGE=$7
 TOKEN=$8
 
-if [[ $MESSAGE == *"[generate api-doc]"* ]]; then
+if [[ $MESSAGE =~ .*[generate api-doc].* ]];
+then
     git clone git://$GH_REPO
     mv -f $DOC_PATH/$FILE $REPO
     cd $REPO
