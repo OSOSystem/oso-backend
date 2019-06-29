@@ -11,7 +11,7 @@ TOKEN=$8
 
 echo $MESSAGE
 
-if $MESSAGE | grep "[generate api-doc]";
+if [[ $MESSAGE == *[generate api-doc]* ]];
 then
     git clone git://$GH_REPO
     mv -f $DOC_PATH/$FILE $REPO
