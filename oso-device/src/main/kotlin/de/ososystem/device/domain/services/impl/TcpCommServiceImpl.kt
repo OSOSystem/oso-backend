@@ -24,7 +24,11 @@ class TcpCommServiceImpl(
     override fun receiveData(connId: String, payload: ByteArray) {
         LOGGER.debug("received data<$payload> for connection<$connId>")
         if (typeMap.containsKey(connId)) {
-            TODO()
+            deviceTypeService.receiveData(
+                    deviceTypeService.getDeviceType(typeMap[connId] ?: error("no devicetype for conn<$connId> in map")) ?: error("unknown devicetype in typeMap"),
+                    connId,
+                    payload
+            )
         } else {
             val pl = dataMap.getOrDefault(connId, ByteArray(0)) + payload
 
@@ -38,7 +42,11 @@ class TcpCommServiceImpl(
                 typeMap[connId] = deviceType
                 dataMap.remove(connId)
 
-                deviceTypeService.receiveData(connId, payload)
+                deviceTypeService.receiveData(
+                        deviceTypeService.getDeviceType(deviceType) ?: error("deviceType<$deviceType> found by service does not exist"),
+                        connId,
+                        payload
+                )
             }
         }
     }

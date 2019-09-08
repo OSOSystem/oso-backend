@@ -7,5 +7,5 @@ interface DeviceTypeService {
     fun getDeviceType(name: String): DeviceType?
 
     fun getPossibleDeviceTypes(payload: ByteArray): Set<DeviceType>
-    fun receiveData(connId: String, payload: ByteArray)
+    fun receiveData(deviceType: DeviceType, connId: String, payload: ByteArray)
 }
